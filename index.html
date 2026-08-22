@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,41 +11,19 @@
       box-sizing: border-box;
     }
 
-    :root {
-      --bg: #f6f3ef;
-      --card: rgba(255, 255, 255, 0.92);
-      --text: #3d3835;
-      --muted: #9a918b;
-      --border: #e8e1dc;
-      --accent: #806b60;
-      --accent-dark: #66544a;
-      --danger: #a96b6b;
-      --success: #62816d;
-      --shadow: 0 12px 35px rgba(70, 55, 45, 0.08);
-    }
-
     body {
       margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #f7f1f3, #f5f1ea);
+      color: #3d3437;
       min-height: 100vh;
-      font-family: Georgia, "Times New Roman", serif;
-      background:
-        radial-gradient(circle at top left, #eee5df 0%, transparent 35%),
-        radial-gradient(circle at bottom right, #e8ddd5 0%, transparent 35%),
-        var(--bg);
-      color: var(--text);
-    }
-
-    button,
-    input,
-    textarea {
-      font-family: inherit;
     }
 
     .container {
       width: 100%;
-      max-width: 620px;
+      max-width: 720px;
       margin: auto;
-      padding: 35px 18px 60px;
+      padding: 30px 18px 60px;
     }
 
     .screen {
@@ -72,76 +49,73 @@
 
     header {
       text-align: center;
-      margin-bottom: 28px;
+      margin: 35px 0 28px;
     }
 
     .logo {
-      font-size: 15px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 30px rgba(80, 60, 65, 0.08);
+      font-size: 27px;
     }
 
     h1 {
       margin: 0;
-      font-size: 38px;
-      font-weight: 400;
-      letter-spacing: -1px;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+      color: #463c40;
     }
 
     h2 {
       margin-top: 0;
-      font-size: 23px;
-      font-weight: 400;
+      font-size: 22px;
+      font-weight: 500;
+      color: #463c40;
     }
 
     .subtitle {
-      margin-top: 10px;
-      color: var(--muted);
+      margin-top: 9px;
+      color: #948a8e;
       font-size: 14px;
       line-height: 1.6;
-      font-family: Arial, sans-serif;
     }
 
     .card {
-      background: var(--card);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.7);
+      background: rgba(255, 255, 255, 0.94);
       padding: 24px;
       border-radius: 22px;
-      box-shadow: var(--shadow);
+      box-shadow: 0 10px 35px rgba(70, 55, 60, 0.08);
       margin-bottom: 18px;
-    }
-
-    .small-label {
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
+      border: 1px solid rgba(255,255,255,0.8);
     }
 
     input,
     textarea {
       width: 100%;
-      border: 1px solid var(--border);
+      border: 1px solid #e4dfe1;
       border-radius: 13px;
       padding: 14px 15px;
       font-size: 15px;
-      margin-bottom: 12px;
+      margin-bottom: 13px;
       outline: none;
-      background: #fffdfb;
-      color: var(--text);
+      background: #fcfbfb;
+      color: #3d3437;
+      font-family: inherit;
       transition: 0.2s;
-      font-family: Arial, sans-serif;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #bca99c;
-      box-shadow: 0 0 0 3px rgba(128,107,96,0.08);
+      border-color: #b79aa5;
+      box-shadow: 0 0 0 3px rgba(183,154,165,0.12);
+      background: #fff;
     }
 
     textarea {
@@ -155,39 +129,35 @@
       border: none;
       border-radius: 13px;
       padding: 14px;
-      background: var(--accent);
+      background: #56474d;
       color: white;
       font-size: 15px;
       cursor: pointer;
       margin-top: 5px;
+      font-family: inherit;
       transition: 0.2s;
-      font-family: Arial, sans-serif;
     }
 
     button:hover {
-      background: var(--accent-dark);
+      background: #45383e;
       transform: translateY(-1px);
     }
 
-    button:active {
-      transform: translateY(0);
-    }
-
     button.secondary {
-      background: #eee8e3;
-      color: var(--text);
+      background: #eee9eb;
+      color: #4b4145;
     }
 
     button.secondary:hover {
-      background: #e4dcd6;
+      background: #e4dde0;
     }
 
     button.danger {
-      background: var(--danger);
+      background: #9b5d66;
     }
 
     button.danger:hover {
-      background: #925b5b;
+      background: #824a53;
     }
 
     button:disabled {
@@ -199,13 +169,12 @@
     .switch {
       text-align: center;
       margin-top: 17px;
-      color: var(--muted);
-      font-size: 13px;
-      font-family: Arial, sans-serif;
+      color: #92888c;
+      font-size: 14px;
     }
 
     .switch span {
-      color: var(--accent-dark);
+      color: #56474d;
       font-weight: bold;
       cursor: pointer;
     }
@@ -215,56 +184,43 @@
     }
 
     .error {
-      color: var(--danger);
-      font-size: 13px;
+      color: #a24f5a;
+      font-size: 14px;
       margin: 10px 0;
       text-align: center;
       line-height: 1.5;
-      font-family: Arial, sans-serif;
     }
 
     .success {
-      color: var(--success);
-      font-size: 13px;
+      color: #52755d;
+      font-size: 14px;
       margin: 10px 0;
       text-align: center;
-      font-family: Arial, sans-serif;
-    }
-
-    .code-box {
-      text-align: center;
-      padding: 20px;
-      background: #f5efea;
-      border-radius: 17px;
-      margin-top: 15px;
     }
 
     .code {
-      font-family: Arial, sans-serif;
       font-size: 29px;
       letter-spacing: 6px;
+      text-align: center;
+      padding: 16px;
+      background: #f5eff1;
+      border-radius: 15px;
+      margin: 16px 0;
       font-weight: bold;
-      color: var(--accent-dark);
-      margin: 8px 0;
-    }
-
-    .code-note {
-      font-family: Arial, sans-serif;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+      color: #56474d;
     }
 
     .topbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 22px;
+      margin: 15px 0 22px;
     }
 
-    .brand-small {
-      font-size: 20px;
-      font-weight: 400;
+    .brand {
+      font-size: 21px;
+      font-weight: 600;
+      color: #56474d;
     }
 
     .logout {
@@ -274,102 +230,67 @@
       font-size: 13px;
     }
 
-    .private-box {
-      text-align: center;
-    }
-
-    .lock {
-      font-size: 25px;
-      margin-bottom: 5px;
-    }
-
-    .private-title {
-      font-size: 14px;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-    }
-
-    .diary-code {
-      font-family: Arial, sans-serif;
-      font-size: 27px;
-      letter-spacing: 6px;
-      font-weight: bold;
-      margin: 10px 0 14px;
-      color: var(--accent-dark);
-    }
-
-    .section-title {
-      font-size: 21px;
-      margin-bottom: 18px;
-    }
-
     .entry {
-      background: rgba(255,255,255,0.92);
-      padding: 19px;
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
       border-radius: 18px;
-      margin-bottom: 14px;
-      box-shadow: 0 7px 22px rgba(70,55,45,0.06);
-      border: 1px solid rgba(232,225,220,0.8);
-    }
-
-    .entry-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 7px 25px rgba(70,55,60,0.06);
     }
 
     .name {
       font-weight: bold;
-      font-size: 15px;
-      color: var(--accent-dark);
-      font-family: Arial, sans-serif;
+      margin-bottom: 5px;
+      color: #514348;
     }
 
     .date {
-      color: var(--muted);
-      font-size: 11px;
-      font-family: Arial, sans-serif;
-      text-align: right;
-      line-height: 1.4;
+      color: #a29a9d;
+      font-size: 12px;
+      margin-bottom: 12px;
     }
 
     .text {
-      line-height: 1.75;
+      line-height: 1.7;
       white-space: pre-wrap;
-      font-size: 15px;
+      color: #51494c;
+    }
+
+    .private {
+      text-align: center;
+      font-size: 13px;
+      color: #948a8e;
     }
 
     .empty {
       text-align: center;
-      color: var(--muted);
-      padding: 35px 20px;
-      font-family: Arial, sans-serif;
+      color: #999;
+      padding: 35px 10px;
       font-size: 14px;
-    }
-
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 22px 0;
     }
 
     .loading {
       text-align: center;
-      color: var(--muted);
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      padding: 20px;
+      color: #8f8589;
+      font-size: 14px;
+      padding: 15px;
+    }
+
+    .small-note {
+      font-size: 12px;
+      color: #999;
+      line-height: 1.5;
+      margin-top: 10px;
+      text-align: center;
     }
 
     @media (max-width: 500px) {
       .container {
-        padding: 25px 14px 45px;
+        padding: 20px 14px 40px;
       }
 
       h1 {
-        font-size: 32px;
+        font-size: 30px;
       }
 
       .card {
@@ -378,11 +299,7 @@
       }
 
       .topbar {
-        align-items: center;
-      }
-
-      .diary-code {
-        font-size: 23px;
+        margin-top: 8px;
       }
     }
   </style>
@@ -392,41 +309,40 @@
 
 <div class="container">
 
-  <!-- ============================= -->
-  <!-- LOGIN SCREEN -->
-  <!-- ============================= -->
+  <!-- LOGIN -->
 
   <div id="loginScreen" class="screen active">
 
     <header>
-      <div class="logo">Our little space</div>
+
+      <div class="logo">
+        ♡
+      </div>
+
       <h1>Our Diary</h1>
 
       <div class="subtitle">
         A little place for memories,<br>
         thoughts and moments.
       </div>
+
     </header>
 
     <div class="card">
 
       <h2>Welcome back</h2>
 
-      <div class="small-label">Email</div>
-
       <input
         type="email"
         id="loginEmail"
-        placeholder="Enter your email"
+        placeholder="Email"
         autocomplete="email"
       >
-
-      <div class="small-label">Password</div>
 
       <input
         type="password"
         id="loginPassword"
-        placeholder="Enter your password"
+        placeholder="Password"
         autocomplete="current-password"
       >
 
@@ -446,50 +362,46 @@
   </div>
 
 
-  <!-- ============================= -->
-  <!-- SIGN UP SCREEN -->
-  <!-- ============================= -->
+  <!-- SIGN UP -->
 
   <div id="signupScreen" class="screen">
 
     <header>
-      <div class="logo">Begin your story</div>
+
+      <div class="logo">
+        ♡
+      </div>
+
       <h1>Create Account</h1>
 
       <div class="subtitle">
-        Make your own little corner<br>
-        for shared memories.
+        Start your little diary.
       </div>
+
     </header>
 
     <div class="card">
 
-      <h2>Start your diary</h2>
-
-      <div class="small-label">Your name</div>
+      <h2>Join us</h2>
 
       <input
         type="text"
         id="signupName"
-        placeholder="What should we call you?"
+        placeholder="Your name"
         autocomplete="name"
       >
-
-      <div class="small-label">Email</div>
 
       <input
         type="email"
         id="signupEmail"
-        placeholder="Enter your email"
+        placeholder="Email"
         autocomplete="email"
       >
-
-      <div class="small-label">Password</div>
 
       <input
         type="password"
         id="signupPassword"
-        placeholder="At least 6 characters"
+        placeholder="Password (minimum 6 characters)"
         autocomplete="new-password"
       >
 
@@ -509,20 +421,23 @@
   </div>
 
 
-  <!-- ============================= -->
-  <!-- SETUP SCREEN -->
-  <!-- ============================= -->
+  <!-- SETUP -->
 
   <div id="setupScreen" class="screen">
 
     <header>
-      <div class="logo">Together</div>
+
+      <div class="logo">
+        ♡
+      </div>
+
       <h1>Our Diary</h1>
 
       <div class="subtitle">
-        Create a private diary<br>
-        or join one using a code.
+        Create a new private diary<br>
+        or join one with a code.
       </div>
+
     </header>
 
     <div class="card">
@@ -530,55 +445,36 @@
       <h2>Create a Diary</h2>
 
       <div class="subtitle">
-        Create a new private space for the two of you.
+        Start a new shared space for your memories.
       </div>
 
       <button id="createDiaryBtn">
-        ✦ Create New Diary
+        Create New Diary
       </button>
 
       <div
         id="createdCode"
-        class="code-box"
+        class="code"
         style="display:none;"
-      >
-
-        <div class="small-label">
-          Your diary code
-        </div>
-
-        <div
-          id="newCodeText"
-          class="code"
-        >
-          ------ 
-        </div>
-
-        <div class="code-note">
-          Save this code and share it with your friend.
-        </div>
-
-      </div>
+      ></div>
 
     </div>
-
 
     <div class="card">
 
       <h2>Join a Diary</h2>
 
       <div class="subtitle">
-        Already have a diary code?
+        Enter the diary code shared with you.
       </div>
 
-      <div style="height:14px;"></div>
+      <br>
 
       <input
         type="text"
         id="joinCode"
-        placeholder="Enter 6-character diary code"
+        placeholder="Enter diary code"
         maxlength="6"
-        autocomplete="off"
       >
 
       <button id="joinDiaryBtn">
@@ -592,45 +488,48 @@
   </div>
 
 
-  <!-- ============================= -->
-  <!-- DIARY SCREEN -->
-  <!-- ============================= -->
+  <!-- DIARY -->
 
   <div id="diaryScreen" class="screen">
 
     <div class="topbar">
 
-      <div class="brand-small">
-        Our Diary
+      <div class="brand">
+        ♡ Our Diary
       </div>
 
       <button
         id="logoutBtn"
         class="logout danger"
       >
-        Log out
+        Logout
       </button>
 
     </div>
 
 
-    <!-- PRIVATE DIARY CODE -->
+    <!-- DIARY CODE -->
 
-    <div class="card private-box">
+    <div class="card">
 
-      <div class="lock">🔐</div>
-
-      <div class="private-title">
-        Your Private Diary
+      <div class="private">
+        🔐 Your Private Diary
       </div>
 
-      <div class="private-title" style="margin-top:8px;">
+      <div
+        style="
+          text-align:center;
+          font-size:13px;
+          color:#999;
+          margin-top:10px;
+        "
+      >
         Diary Code
       </div>
 
       <div
         id="roomCode"
-        class="diary-code"
+        class="code"
       >
         ------
       </div>
@@ -639,10 +538,9 @@
         📋 Copy Diary Code
       </button>
 
-      <div
-        id="copyMessage"
-        class="success"
-      ></div>
+      <div class="small-note">
+        Share this code only with the person you want to join your diary.
+      </div>
 
     </div>
 
@@ -651,15 +549,12 @@
 
     <div class="card">
 
-      <div class="section-title">
-        ✍️ Write something
-      </div>
+      <h2>Write something</h2>
 
       <input
         type="text"
         id="entryName"
         placeholder="Your name"
-        autocomplete="off"
       >
 
       <textarea
@@ -670,8 +565,6 @@
       <button id="addEntryBtn">
         Add to Diary
       </button>
-
-      <div id="entryError" class="error"></div>
 
     </div>
 
@@ -693,9 +586,9 @@
 
 <script type="module">
 
-  // ==================================================
+  // =====================================================
   // FIREBASE IMPORTS
-  // ==================================================
+  // =====================================================
 
   import { initializeApp }
     from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -724,39 +617,73 @@
     from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-  // ==================================================
+  // =====================================================
   // FIREBASE CONFIG
-  // ==================================================
-  // IMPORTANT:
-  // This configuration is copied from the latest
-  // Firebase Console configuration you provided.
-  // ==================================================
+  // =====================================================
 
   const firebaseConfig = {
-  apiKey: "AIzaSyDwdfh1gKfTo1I64uFLRi34H5SqXz_-z6U",
-  authDomain: "our-diary-df440.firebaseapp.com",
-  projectId: "our-diary-df440",
-  storageBucket: "our-diary-df440.firebasestorage.app",
-  messagingSenderId: "1078217767691",
-  appId: "1:1078217767691:web:dab6ca2ef0c8c6679b800e",
-  measurementId: "G-WEDXMB4P4J"
-};
+
+    apiKey: "AIzaSyDwdfh1gKfTo1I64uFLRi34H5SqXz_-z6U",
+
+    authDomain: "our-diary-df440.firebaseapp.com",
+
+    projectId: "our-diary-df440",
+
+    storageBucket: "our-diary-df440.firebasestorage.app",
+
+    messagingSenderId: "1078217767691",
+
+    appId: "1:1078217767691:web:dab6ca2ef0c8c6679b800e",
+
+    measurementId: "G-WEDXMB4P4J"
+
+  };
 
 
-  // ==================================================
+  // =====================================================
   // INITIALIZE FIREBASE
-  // ==================================================
+  // =====================================================
 
-  const app = initializeApp(firebaseConfig);
+  let app;
+  let auth;
+  let db;
 
-  const auth = getAuth(app);
+  try {
 
-  const db = getFirestore(app);
+    app = initializeApp(firebaseConfig);
+
+    auth = getAuth(app);
+
+    db = getFirestore(app);
+
+  } catch (error) {
+
+    console.error("Firebase initialization error:", error);
+
+    document.body.innerHTML = `
+      <div style="
+        max-width:600px;
+        margin:80px auto;
+        padding:25px;
+        font-family:Arial;
+        text-align:center;
+      ">
+        <h2>Firebase Configuration Error</h2>
+        <p>
+          Firebase could not be initialized.
+        </p>
+        <p style="color:#a24f5a;">
+          ${error.message}
+        </p>
+      </div>
+    `;
+
+  }
 
 
-  // ==================================================
+  // =====================================================
   // GLOBAL VARIABLES
-  // ==================================================
+  // =====================================================
 
   let currentUser = null;
 
@@ -765,35 +692,121 @@
   let unsubscribeDiary = null;
 
 
-  // ==================================================
-  // SCREEN REFERENCES
-  // ==================================================
+  // =====================================================
+  // SCREENS
+  // =====================================================
 
   const screens = {
+
     login: document.getElementById("loginScreen"),
+
     signup: document.getElementById("signupScreen"),
+
     setup: document.getElementById("setupScreen"),
+
     diary: document.getElementById("diaryScreen")
+
   };
 
 
-  // ==================================================
+  // =====================================================
   // SHOW SCREEN
-  // ==================================================
+  // =====================================================
 
   function showScreen(name) {
 
     Object.values(screens).forEach(screen => {
+
       screen.classList.remove("active");
+
     });
 
     screens[name].classList.add("active");
+
   }
 
 
-  // ==================================================
+  // =====================================================
+  // FIREBASE ERROR MESSAGE
+  // =====================================================
+
+  function friendlyError(error) {
+
+    const code = error?.code || "";
+
+    if (
+      code.includes("api-key-not-valid")
+    ) {
+
+      return "Firebase API key is invalid. Please check your Firebase configuration.";
+
+    }
+
+    if (
+      code.includes("auth/invalid-credential") ||
+      code.includes("auth/invalid-login-credentials")
+    ) {
+
+      return "Incorrect email or password.";
+
+    }
+
+    if (
+      code.includes("auth/user-not-found")
+    ) {
+
+      return "No account was found with this email.";
+
+    }
+
+    if (
+      code.includes("auth/wrong-password")
+    ) {
+
+      return "Incorrect password.";
+
+    }
+
+    if (
+      code.includes("auth/email-already-in-use")
+    ) {
+
+      return "An account with this email already exists.";
+
+    }
+
+    if (
+      code.includes("auth/weak-password")
+    ) {
+
+      return "Password must be at least 6 characters.";
+
+    }
+
+    if (
+      code.includes("auth/invalid-email")
+    ) {
+
+      return "Please enter a valid email address.";
+
+    }
+
+    if (
+      code.includes("permission-denied")
+    ) {
+
+      return "You do not have permission to do this.";
+
+    }
+
+    return error?.message || "Something went wrong.";
+
+  }
+
+
+  // =====================================================
   // GENERATE DIARY CODE
-  // ==================================================
+  // =====================================================
 
   function generateCode() {
 
@@ -813,58 +826,13 @@
     }
 
     return code;
+
   }
 
 
-  // ==================================================
-  // FRIENDLY FIREBASE ERROR
-  // ==================================================
-
-  function getFriendlyError(error) {
-
-    const code = error?.code || "";
-
-    switch (code) {
-
-      case "auth/invalid-email":
-        return "Please enter a valid email address.";
-
-      case "auth/user-not-found":
-        return "No account was found with this email.";
-
-      case "auth/wrong-password":
-        return "Incorrect password.";
-
-      case "auth/invalid-credential":
-        return "Email or password is incorrect.";
-
-      case "auth/email-already-in-use":
-        return "An account already exists with this email.";
-
-      case "auth/weak-password":
-        return "Password must be at least 6 characters.";
-
-      case "auth/too-many-requests":
-        return "Too many attempts. Please try again later.";
-
-      case "auth/network-request-failed":
-        return "Network error. Please check your internet connection.";
-
-      case "auth/api-key-not-valid":
-        return "Firebase API key is invalid. Please check your Firebase configuration.";
-
-      case "permission-denied":
-        return "Permission denied. Please check your Firestore rules.";
-
-      default:
-        return error?.message || "Something went wrong.";
-    }
-  }
-
-
-  // ==================================================
+  // =====================================================
   // SIGN UP
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("signupBtn")
@@ -890,6 +858,7 @@
       const error =
         document.getElementById("signupError");
 
+
       error.textContent = "";
 
 
@@ -899,6 +868,7 @@
           "Please fill in all fields.";
 
         return;
+
       }
 
 
@@ -908,15 +878,8 @@
           "Password must be at least 6 characters.";
 
         return;
+
       }
-
-
-      const button =
-        document.getElementById("signupBtn");
-
-      button.disabled = true;
-
-      button.textContent = "Creating...";
 
 
       try {
@@ -930,47 +893,33 @@
 
 
         await setDoc(
-          doc(db, "users", result.user.uid),
+          doc(
+            db,
+            "users",
+            result.user.uid
+          ),
           {
             name: name,
-            email: email,
-            createdAt: serverTimestamp()
+            email: email
           }
         );
 
 
-        document
-          .getElementById("signupName")
-          .value = "";
-
-        document
-          .getElementById("signupEmail")
-          .value = "";
-
-        document
-          .getElementById("signupPassword")
-          .value = "";
-
-
       } catch (errorObject) {
 
+        console.error(errorObject);
+
         error.textContent =
-          getFriendlyError(errorObject);
+          friendlyError(errorObject);
 
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-          "Create account";
       }
 
     });
 
 
-  // ==================================================
+  // =====================================================
   // LOGIN
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("loginBtn")
@@ -990,6 +939,7 @@
       const error =
         document.getElementById("loginError");
 
+
       error.textContent = "";
 
 
@@ -999,15 +949,8 @@
           "Please enter your email and password.";
 
         return;
+
       }
-
-
-      const button =
-        document.getElementById("loginBtn");
-
-      button.disabled = true;
-
-      button.textContent = "Logging in...";
 
 
       try {
@@ -1020,31 +963,31 @@
 
       } catch (errorObject) {
 
+        console.error(
+          "Firebase login error:",
+          errorObject
+        );
+
         error.textContent =
-          getFriendlyError(errorObject);
+          friendlyError(errorObject);
 
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent = "Log in";
       }
 
     });
 
 
-  // ==================================================
-  // SCREEN SWITCHING
-  // ==================================================
+  // =====================================================
+  // SWITCH LOGIN / SIGNUP
+  // =====================================================
 
   document
     .getElementById("showSignup")
     .onclick = () => {
 
-      document.getElementById("loginError")
-        .textContent = "";
+      document.getElementById("loginError").textContent = "";
 
       showScreen("signup");
+
     };
 
 
@@ -1052,72 +995,56 @@
     .getElementById("showLogin")
     .onclick = () => {
 
-      document.getElementById("signupError")
-        .textContent = "";
+      document.getElementById("signupError").textContent = "";
 
       showScreen("login");
+
     };
 
 
-  // ==================================================
+  // =====================================================
   // CREATE DIARY
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("createDiaryBtn")
     .addEventListener("click", async () => {
-
-      if (!currentUser) {
-
-        document.getElementById("setupError")
-          .textContent =
-          "Please log in first.";
-
-        return;
-      }
-
-
-      const button =
-        document.getElementById("createDiaryBtn");
 
       const error =
         document.getElementById("setupError");
 
       error.textContent = "";
 
-      button.disabled = true;
 
-      button.textContent = "Creating...";
+      if (!currentUser) {
+
+        error.textContent =
+          "Please log in first.";
+
+        return;
+
+      }
+
+
+      const code = generateCode();
+
+      const diaryRef =
+        doc(
+          db,
+          "diaries",
+          code
+        );
 
 
       try {
-
-        let code = generateCode();
-
-        let diaryRef =
-          doc(db, "diaries", code);
-
-        let existing =
-          await getDoc(diaryRef);
-
-
-        while (existing.exists()) {
-
-          code = generateCode();
-
-          diaryRef =
-            doc(db, "diaries", code);
-
-          existing =
-            await getDoc(diaryRef);
-        }
-
 
         await setDoc(
           diaryRef,
           {
             code: code,
+
             createdBy: currentUser.uid,
+
             createdAt: serverTimestamp()
           }
         );
@@ -1138,17 +1065,17 @@
         );
 
 
-        currentDiaryId = code;
-
-
         document
           .getElementById("createdCode")
           .style.display = "block";
 
 
         document
-          .getElementById("newCodeText")
+          .getElementById("createdCode")
           .textContent = code;
+
+
+        currentDiaryId = code;
 
 
         setTimeout(() => {
@@ -1162,37 +1089,23 @@
 
       } catch (errorObject) {
 
+        console.error(errorObject);
+
         error.textContent =
-          getFriendlyError(errorObject);
+          friendlyError(errorObject);
 
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-          "✦ Create New Diary";
       }
 
     });
 
 
-  // ==================================================
+  // =====================================================
   // JOIN DIARY
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("joinDiaryBtn")
     .addEventListener("click", async () => {
-
-      if (!currentUser) {
-
-        document.getElementById("setupError")
-          .textContent =
-          "Please log in first.";
-
-        return;
-      }
-
 
       const code =
         document
@@ -1204,6 +1117,7 @@
       const error =
         document.getElementById("setupError");
 
+
       error.textContent = "";
 
 
@@ -1213,24 +1127,18 @@
           "Please enter a diary code.";
 
         return;
+
       }
 
 
-      if (code.length !== 6) {
+      if (!currentUser) {
 
         error.textContent =
-          "Diary code must be 6 characters.";
+          "Please log in first.";
 
         return;
+
       }
-
-
-      const button =
-        document.getElementById("joinDiaryBtn");
-
-      button.disabled = true;
-
-      button.textContent = "Joining...";
 
 
       try {
@@ -1248,9 +1156,10 @@
         if (!diaryDoc.exists()) {
 
           error.textContent =
-            "Diary not found. Please check the code.";
+            "Diary not found.";
 
           return;
+
         }
 
 
@@ -1278,33 +1187,25 @@
 
       } catch (errorObject) {
 
+        console.error(errorObject);
+
         error.textContent =
-          getFriendlyError(errorObject);
+          friendlyError(errorObject);
 
-      } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-          "Join Diary";
       }
 
     });
 
 
-  // ==================================================
+  // =====================================================
   // COPY DIARY CODE
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("copyCodeBtn")
     .addEventListener("click", async () => {
 
       if (!currentDiaryId) return;
-
-
-      const message =
-        document.getElementById("copyMessage");
 
 
       try {
@@ -1314,30 +1215,36 @@
         );
 
 
-        message.textContent =
-          "✓ Diary code copied!";
+        const button =
+          document.getElementById("copyCodeBtn");
+
+
+        button.textContent =
+          "✓ Code Copied!";
 
 
         setTimeout(() => {
 
-          message.textContent = "";
+          button.textContent =
+            "📋 Copy Diary Code";
 
-        }, 1800);
+        }, 1500);
 
 
       } catch (error) {
 
-        message.textContent =
-          "Could not copy the code.";
+        alert(
+          "Could not copy the code."
+        );
 
       }
 
     });
 
 
-  // ==================================================
+  // =====================================================
   // LOAD DIARY
-  // ==================================================
+  // =====================================================
 
   function loadDiary() {
 
@@ -1346,7 +1253,8 @@
 
     document
       .getElementById("roomCode")
-      .textContent = currentDiaryId;
+      .textContent =
+        currentDiaryId;
 
 
     if (unsubscribeDiary) {
@@ -1354,6 +1262,7 @@
       unsubscribeDiary();
 
       unsubscribeDiary = null;
+
     }
 
 
@@ -1379,7 +1288,6 @@
     unsubscribeDiary =
       onSnapshot(
         diaryQuery,
-
         snapshot => {
 
           const diary =
@@ -1392,16 +1300,14 @@
           if (snapshot.empty) {
 
             diary.innerHTML = `
-              <div class="card empty">
-                <div style="font-size:25px; margin-bottom:8px;">
-                  ♡
-                </div>
+              <div class="empty">
                 No memories yet.<br>
-                Write the first one.
+                Write the first one ♡
               </div>
             `;
 
             return;
+
           }
 
 
@@ -1414,20 +1320,16 @@
             const entry =
               document.createElement("div");
 
-            entry.className = "entry";
 
-
-            const header =
-              document.createElement("div");
-
-            header.className =
-              "entry-header";
+            entry.className =
+              "entry";
 
 
             const name =
               document.createElement("div");
 
-            name.className = "name";
+            name.className =
+              "name";
 
             name.textContent =
               data.name || "Someone";
@@ -1436,48 +1338,41 @@
             const date =
               document.createElement("div");
 
-            date.className = "date";
+            date.className =
+              "date";
 
 
             if (data.createdAt) {
 
-              try {
-
-                date.textContent =
-                  data.createdAt
-                    .toDate()
-                    .toLocaleString();
-
-              } catch {
-
-                date.textContent =
-                  "Just now";
-              }
+              date.textContent =
+                data.createdAt
+                  .toDate()
+                  .toLocaleString();
 
             } else {
 
               date.textContent =
                 "Just now";
+
             }
-
-
-            header.appendChild(name);
-
-            header.appendChild(date);
 
 
             const text =
               document.createElement("div");
 
-            text.className = "text";
+            text.className =
+              "text";
 
             text.textContent =
               data.message || "";
 
 
-            entry.appendChild(header);
+            entry.appendChild(name);
+
+            entry.appendChild(date);
 
             entry.appendChild(text);
+
 
             diary.appendChild(entry);
 
@@ -1487,36 +1382,44 @@
 
         errorObject => {
 
-          const diary =
-            document.getElementById("diary");
+          console.error(
+            "Diary listener error:",
+            errorObject
+          );
 
-          diary.innerHTML = `
-            <div class="card error">
-              ${getFriendlyError(errorObject)}
-            </div>
-          `;
+          document
+            .getElementById("diary")
+            .innerHTML = `
+              <div class="error">
+                Could not load diary entries.
+                <br>
+                ${friendlyError(errorObject)}
+              </div>
+            `;
 
         }
+
       );
 
   }
 
 
-  // ==================================================
+  // =====================================================
   // ADD ENTRY
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("addEntryBtn")
     .addEventListener("click", async () => {
 
-      if (!currentUser || !currentDiaryId) {
+      if (!currentDiaryId || !currentUser) {
 
-        document.getElementById("entryError")
-          .textContent =
-          "Please log in and join a diary first.";
+        alert(
+          "Please log in and open a diary first."
+        );
 
         return;
+
       }
 
 
@@ -1534,27 +1437,15 @@
           .trim();
 
 
-      const error =
-        document.getElementById("entryError");
-
-      error.textContent = "";
-
-
       if (!name || !message) {
 
-        error.textContent =
-          "Please enter your name and message.";
+        alert(
+          "Please fill in your name and message."
+        );
 
         return;
+
       }
-
-
-      const button =
-        document.getElementById("addEntryBtn");
-
-      button.disabled = true;
-
-      button.textContent = "Saving...";
 
 
       try {
@@ -1567,10 +1458,16 @@
             "entries"
           ),
           {
+
             name: name,
+
             message: message,
+
             userId: currentUser.uid,
-            createdAt: serverTimestamp()
+
+            createdAt:
+              serverTimestamp()
+
           }
         );
 
@@ -1582,23 +1479,20 @@
 
       } catch (errorObject) {
 
-        error.textContent =
-          getFriendlyError(errorObject);
+        console.error(errorObject);
 
-      } finally {
+        alert(
+          friendlyError(errorObject)
+        );
 
-        button.disabled = false;
-
-        button.textContent =
-          "Add to Diary";
       }
 
     });
 
 
-  // ==================================================
+  // =====================================================
   // LOGOUT
-  // ==================================================
+  // =====================================================
 
   document
     .getElementById("logoutBtn")
@@ -1617,13 +1511,12 @@
     };
 
 
-  // ==================================================
+  // =====================================================
   // AUTH STATE
-  // ==================================================
+  // =====================================================
 
   onAuthStateChanged(
     auth,
-
     async user => {
 
       if (!user) {
@@ -1638,12 +1531,14 @@
           unsubscribeDiary();
 
           unsubscribeDiary = null;
+
         }
 
 
         showScreen("login");
 
         return;
+
       }
 
 
@@ -1675,6 +1570,7 @@
 
           loadDiary();
 
+
         } else {
 
           showScreen("setup");
@@ -1684,17 +1580,20 @@
 
       } catch (errorObject) {
 
-        console.error(errorObject);
+        console.error(
+          "User profile error:",
+          errorObject
+        );
 
         showScreen("setup");
 
       }
 
     }
+
   );
 
 </script>
 
 </body>
 </html>
-```
