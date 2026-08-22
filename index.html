@@ -751,16 +751,13 @@
 
 }); // LOAD DIARY
 
-  async function loadDiary() {
+async function loadDiary() {
 
-    if (!currentDiaryId) return;
+  if (!currentDiaryId) return;
 
+  document.getElementById("roomCode").textContent = currentDiaryId;
 
-    if (unsubscribeDiary) {
-
-      unsubscribeDiary();
-
-    }
+  if (unsubscribeDiary) {
 
 
     const entriesRef =
