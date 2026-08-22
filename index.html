@@ -188,6 +188,7 @@
 
     <header>
       <h1>Our Diary</h1>
+
       <div class="subtitle">
         A little place for our memories.
       </div>
@@ -230,6 +231,7 @@
 
     <header>
       <h1>Create Account</h1>
+
       <div class="subtitle">
         Start your little diary.
       </div>
@@ -276,6 +278,7 @@
 
     <header>
       <h1>Our Diary</h1>
+
       <div class="subtitle">
         Create a new diary or join one.
       </div>
@@ -289,7 +292,11 @@
         Create New Diary
       </button>
 
-      <div id="createdCode" class="code" style="display:none;"></div>
+      <div
+        id="createdCode"
+        class="code"
+        style="display:none;"
+      ></div>
 
     </div>
 
@@ -320,40 +327,58 @@
 
     <div class="topbar">
 
-  <strong>Our Diary</strong>
+      <strong>Our Diary</strong>
 
-  <button id="logoutBtn" class="logout danger">
-    Logout
-  </button>
+      <button
+        id="logoutBtn"
+        class="logout danger"
+      >
+        Logout
+      </button>
 
-</div>
+    </div>
 
-<div class="card" style="text-align:center;">
 
-  <div style="font-size:13px; color:#888;">
-    🔐 Your Private Diary
-  </div>
+    <!-- DIARY CODE -->
+    <div
+      class="card"
+      style="text-align:center;"
+    >
 
-  <div style="font-size:13px; color:#888; margin-top:8px;">
-    Diary Code
-  </div>
+      <div style="font-size:13px; color:#888;">
+        🔐 Your Private Diary
+      </div>
 
-  <div id="roomCode"
-       style="
-         font-size:26px;
-         letter-spacing:5px;
-         font-weight:bold;
-         margin:10px 0;
-       ">
-    ------
-  </div>
+      <div
+        style="
+          font-size:13px;
+          color:#888;
+          margin-top:8px;
+        "
+      >
+        Diary Code
+      </div>
 
-  <button id="copyCodeBtn">
-    📋 Copy Diary Code
-  </button>
+      <div
+        id="roomCode"
+        style="
+          font-size:26px;
+          letter-spacing:5px;
+          font-weight:bold;
+          margin:10px 0;
+        "
+      >
+        ------
+      </div>
 
-</div>
+      <button id="copyCodeBtn">
+        📋 Copy Diary Code
+      </button>
 
+    </div>
+
+
+    <!-- ADD ENTRY -->
     <div class="card">
 
       <input
@@ -373,6 +398,8 @@
 
     </div>
 
+
+    <!-- DIARY ENTRIES -->
     <div id="diary"></div>
 
   </div>
@@ -381,6 +408,10 @@
 
 
 <script type="module">
+
+  // =========================================
+  // FIREBASE IMPORTS
+  // =========================================
 
   import { initializeApp }
     from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
@@ -409,6 +440,10 @@
     from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
+  // =========================================
+  // FIREBASE CONFIG
+  // =========================================
+
   const firebaseConfig = {
 
     apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34Hq5SqXz_-z6U",
@@ -428,6 +463,10 @@
   };
 
 
+  // =========================================
+  // INITIALIZE FIREBASE
+  // =========================================
+
   const app = initializeApp(firebaseConfig);
 
   const auth = getAuth(app);
@@ -435,12 +474,20 @@
   const db = getFirestore(app);
 
 
+  // =========================================
+  // GLOBAL VARIABLES
+  // =========================================
+
   let currentUser = null;
 
   let currentDiaryId = null;
 
   let unsubscribeDiary = null;
 
+
+  // =========================================
+  // SCREENS
+  // =========================================
 
   const screens = {
 
@@ -455,6 +502,10 @@
   };
 
 
+  // =========================================
+  // SHOW SCREEN
+  // =========================================
+
   function showScreen(name) {
 
     Object.values(screens).forEach(screen => {
@@ -468,15 +519,25 @@
   }
 
 
+  // =========================================
+  // GENERATE DIARY CODE
+  // =========================================
+
   function generateCode() {
 
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    const chars =
+      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
     let code = "";
 
     for (let i = 0; i < 6; i++) {
 
-      code += chars[Math.floor(Math.random() * chars.length)];
+      code +=
+        chars[
+          Math.floor(
+            Math.random() * chars.length
+          )
+        ];
 
     }
 
@@ -485,279 +546,383 @@
   }
 
 
+  // =========================================
   // SIGN UP
+  // =========================================
 
-  document.getElementById("signupBtn").addEventListener("click", async () => {
+  document
+    .getElementById("signupBtn")
+    .addEventListener("click", async () => {
 
-    const name =
-      document.getElementById("signupName").value.trim();
+      const name =
+        document
+          .getElementById("signupName")
+          .value
+          .trim();
 
-    const email =
-      document.getElementById("signupEmail").value.trim();
+      const email =
+        document
+          .getElementById("signupEmail")
+          .value
+          .trim();
 
-    const password =
-      document.getElementById("signupPassword").value;
+      const password =
+        document
+          .getElementById("signupPassword")
+          .value;
 
-    const error =
-      document.getElementById("signupError");
+      const error =
+        document.getElementById("signupError");
 
 
-    error.textContent = "";
+      error.textContent = "";
 
 
-    if (!name || !email || !password) {
-
-      error.textContent = "Please fill in all fields.";
-
-      return;
-
-    }
-
-
-    if (password.length < 6) {
-
-      error.textContent =
-        "Password must be at least 6 characters.";
-
-      return;
-
-    }
-
-
-    try {
-
-      const result =
-        await createUserWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
-
-
-      await setDoc(
-        doc(db, "users", result.user.uid),
-        {
-          name: name,
-          email: email
-        }
-      );
-
-
-    } catch (e) {
-
-      error.textContent = e.message;
-
-    }
-
-  });
-
-
-  // LOGIN
-
-  document.getElementById("loginBtn").addEventListener("click", async () => {
-
-    const email =
-      document.getElementById("loginEmail").value.trim();
-
-    const password =
-      document.getElementById("loginPassword").value;
-
-    const error =
-      document.getElementById("loginError");
-
-
-    error.textContent = "";
-
-
-    try {
-
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-    } catch (e) {
-
-      error.textContent = e.message;
-
-    }
-
-  });
-
-
-  // SCREEN SWITCHING
-
-  document.getElementById("showSignup").onclick = () => {
-
-    showScreen("signup");
-
-  };
-
-
-  document.getElementById("showLogin").onclick = () => {
-
-    showScreen("login");
-
-  };
-
-
-  // CREATE DIARY
-
-  document.getElementById("createDiaryBtn").addEventListener("click", async () => {
-
-    const code = generateCode();
-
-    const diaryRef =
-      doc(db, "diaries", code);
-
-
-    try {
-
-      await setDoc(diaryRef, {
-
-        code: code,
-
-        createdBy: currentUser.uid,
-
-        createdAt: serverTimestamp()
-
-      });
-
-
-      await setDoc(
-        doc(db, "users", currentUser.uid),
-        {
-          diaryId: code
-        },
-        { merge: true }
-      );
-
-
-      document.getElementById("createdCode").style.display = "block";
-
-      document.getElementById("createdCode").textContent = code;
-
-      currentDiaryId = code;
-
-
-      setTimeout(() => {
-
-        showScreen("diary");
-
-        loadDiary();
-
-      }, 1500);
-
-
-    } catch (e) {
-
-      document.getElementById("setupError").textContent =
-        e.message;
-
-    }
-
-  });
-
-
-  // JOIN DIARY
-
-  document.getElementById("joinDiaryBtn").addEventListener("click", async () => {
-
-    const code =
-      document.getElementById("joinCode").value.trim().toUpperCase();
-
-    const error =
-      document.getElementById("setupError");
-
-
-    error.textContent = "";
-
-
-    if (!code) {
-
-      error.textContent =
-        "Please enter a diary code.";
-
-      return;
-
-    }
-
-
-    try {
-
-      const diaryDoc =
-        await getDoc(
-          doc(db, "diaries", code)
-        );
-
-
-      if (!diaryDoc.exists()) {
+      if (!name || !email || !password) {
 
         error.textContent =
-          "Diary not found.";
+          "Please fill in all fields.";
 
         return;
 
       }
 
 
-      await setDoc(
-        doc(db, "users", currentUser.uid),
-        {
-          diaryId: code
-        },
-        { merge: true }
-      );
+      if (password.length < 6) {
+
+        error.textContent =
+          "Password must be at least 6 characters.";
+
+        return;
+
+      }
 
 
-      currentDiaryId = code;
+      try {
 
-      showScreen("diary");
+        const result =
+          await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+          );
 
-      loadDiary();
+
+        await setDoc(
+          doc(db, "users", result.user.uid),
+          {
+            name: name,
+            email: email
+          }
+        );
 
 
-    } catch (e) {
+      } catch (e) {
 
-      error.textContent = e.message;
+        error.textContent = e.message;
+
+      }
+
+    });
+
+
+  // =========================================
+  // LOGIN
+  // =========================================
+
+  document
+    .getElementById("loginBtn")
+    .addEventListener("click", async () => {
+
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
+
+      const error =
+        document.getElementById("loginError");
+
+
+      error.textContent = "";
+
+
+      try {
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+      } catch (e) {
+
+        error.textContent = e.message;
+
+      }
+
+    });
+
+
+  // =========================================
+  // SCREEN SWITCHING
+  // =========================================
+
+  document
+    .getElementById("showSignup")
+    .onclick = () => {
+
+      showScreen("signup");
+
+    };
+
+
+  document
+    .getElementById("showLogin")
+    .onclick = () => {
+
+      showScreen("login");
+
+    };
+
+
+  // =========================================
+  // CREATE DIARY
+  // =========================================
+
+  document
+    .getElementById("createDiaryBtn")
+    .addEventListener("click", async () => {
+
+      const code = generateCode();
+
+      const diaryRef =
+        doc(db, "diaries", code);
+
+
+      try {
+
+        await setDoc(
+          diaryRef,
+          {
+
+            code: code,
+
+            createdBy: currentUser.uid,
+
+            createdAt: serverTimestamp()
+
+          }
+        );
+
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            currentUser.uid
+          ),
+          {
+            diaryId: code
+          },
+          {
+            merge: true
+          }
+        );
+
+
+        document
+          .getElementById("createdCode")
+          .style
+          .display = "block";
+
+
+        document
+          .getElementById("createdCode")
+          .textContent = code;
+
+
+        currentDiaryId = code;
+
+
+        setTimeout(() => {
+
+          showScreen("diary");
+
+          loadDiary();
+
+        }, 1500);
+
+
+      } catch (e) {
+
+        document
+          .getElementById("setupError")
+          .textContent = e.message;
+
+      }
+
+    });
+
+
+  // =========================================
+  // JOIN DIARY
+  // =========================================
+
+  document
+    .getElementById("joinDiaryBtn")
+    .addEventListener("click", async () => {
+
+      const code =
+        document
+          .getElementById("joinCode")
+          .value
+          .trim()
+          .toUpperCase();
+
+      const error =
+        document.getElementById("setupError");
+
+
+      error.textContent = "";
+
+
+      if (!code) {
+
+        error.textContent =
+          "Please enter a diary code.";
+
+        return;
+
+      }
+
+
+      try {
+
+        const diaryDoc =
+          await getDoc(
+            doc(
+              db,
+              "diaries",
+              code
+            )
+          );
+
+
+        if (!diaryDoc.exists()) {
+
+          error.textContent =
+            "Diary not found.";
+
+          return;
+
+        }
+
+
+        await setDoc(
+          doc(
+            db,
+            "users",
+            currentUser.uid
+          ),
+          {
+            diaryId: code
+          },
+          {
+            merge: true
+          }
+        );
+
+
+        currentDiaryId = code;
+
+        showScreen("diary");
+
+        loadDiary();
+
+
+      } catch (e) {
+
+        error.textContent = e.message;
+
+      }
+
+    });
+
+
+  // =========================================
+  // COPY DIARY CODE
+  // =========================================
+
+  document
+    .getElementById("copyCodeBtn")
+    .addEventListener("click", async () => {
+
+      if (!currentDiaryId) return;
+
+
+      try {
+
+        await navigator.clipboard.writeText(
+          currentDiaryId
+        );
+
+
+        const button =
+          document.getElementById(
+            "copyCodeBtn"
+          );
+
+
+        button.textContent =
+          "✓ Code Copied!";
+
+
+        setTimeout(() => {
+
+          button.textContent =
+            "📋 Copy Diary Code";
+
+        }, 1500);
+
+
+      } catch (error) {
+
+        alert(
+          "Could not copy the code."
+        );
+
+      }
+
+    });
+
+
+  // =========================================
+  // LOAD DIARY
+  // =========================================
+
+  async function loadDiary() {
+
+    if (!currentDiaryId) return;
+
+
+    // Show diary code
+    document
+      .getElementById("roomCode")
+      .textContent = currentDiaryId;
+
+
+    // Stop previous listener
+    if (unsubscribeDiary) {
+
+      unsubscribeDiary();
 
     }
-
-  });
-
-
- document.getElementById("copyCodeBtn").addEventListener("click", async () => {
-
-  if (!currentDiaryId) return;
-
-  try {
-
-    await navigator.clipboard.writeText(currentDiaryId);
-
-    const button = document.getElementById("copyCodeBtn");
-
-    button.textContent = "✓ Code Copied!";
-
-    setTimeout(() => {
-      button.textContent = "📋 Copy Diary Code";
-    }, 1500);
-
-  } catch (error) {
-
-    alert("Could not copy the code.");
-
-  }
-
-}); // LOAD DIARY
-
-async function loadDiary() {
-
-  if (!currentDiaryId) return;
-
-  document.getElementById("roomCode").textContent = currentDiaryId;
-
-  if (unsubscribeDiary) {
 
 
     const entriesRef =
@@ -772,7 +937,10 @@ async function loadDiary() {
     const diaryQuery =
       query(
         entriesRef,
-        orderBy("createdAt", "desc")
+        orderBy(
+          "createdAt",
+          "desc"
+        )
       );
 
 
@@ -782,20 +950,28 @@ async function loadDiary() {
         snapshot => {
 
           const diary =
-            document.getElementById("diary");
+            document.getElementById(
+              "diary"
+            );
+
 
           diary.innerHTML = "";
 
 
           snapshot.forEach(item => {
 
-            const data = item.data();
+            const data =
+              item.data();
 
 
             const entry =
-              document.createElement("div");
+              document.createElement(
+                "div"
+              );
 
-            entry.className = "entry";
+
+            entry.className =
+              "entry";
 
 
             entry.innerHTML = `
@@ -808,9 +984,10 @@ async function loadDiary() {
 
                 ${
                   data.createdAt
-                  ? data.createdAt.toDate().toLocaleString()
+                  ? data.createdAt
+                      .toDate()
+                      .toLocaleString()
                   : "Just now"
-
                 }
 
               </div>
@@ -833,126 +1010,171 @@ async function loadDiary() {
   }
 
 
+  // =========================================
   // ADD ENTRY
+  // =========================================
 
-  document.getElementById("addEntryBtn").addEventListener("click", async () => {
+  document
+    .getElementById("addEntryBtn")
+    .addEventListener("click", async () => {
 
-    if (!currentDiaryId) return;
-
-
-    const name =
-      document.getElementById("entryName").value.trim();
-
-    const message =
-      document.getElementById("entryMessage").value.trim();
+      if (!currentDiaryId) return;
 
 
-    if (!name || !message) {
-
-      alert("Please fill in your name and message.");
-
-      return;
-
-    }
+      const name =
+        document
+          .getElementById("entryName")
+          .value
+          .trim();
 
 
-    try {
-
-      await addDoc(
-        collection(
-          db,
-          "diaries",
-          currentDiaryId,
-          "entries"
-        ),
-        {
-          name: name,
-
-          message: message,
-
-          userId: currentUser.uid,
-
-          createdAt: serverTimestamp()
-
-        }
-      );
+      const message =
+        document
+          .getElementById("entryMessage")
+          .value
+          .trim();
 
 
-      document.getElementById("entryMessage").value = "";
+      if (!name || !message) {
+
+        alert(
+          "Please fill in your name and message."
+        );
+
+        return;
+
+      }
 
 
-    } catch (e) {
+      try {
 
-      alert(e.message);
+        await addDoc(
+          collection(
+            db,
+            "diaries",
+            currentDiaryId,
+            "entries"
+          ),
+          {
 
-    }
+            name: name,
 
-  });
+            message: message,
 
+            userId: currentUser.uid,
 
-  // LOGOUT
+            createdAt:
+              serverTimestamp()
 
-  document.getElementById("logoutBtn").onclick = async () => {
-
-    await signOut(auth);
-
-  };
-
-
-  // AUTH STATE
-
-  onAuthStateChanged(auth, async user => {
-
-    if (!user) {
-
-      currentUser = null;
-
-      showScreen("login");
-
-      return;
-
-    }
-
-
-    currentUser = user;
-
-
-    try {
-
-      const userDoc =
-        await getDoc(
-          doc(db, "users", user.uid)
+          }
         );
 
 
-      if (
-        userDoc.exists() &&
-        userDoc.data().diaryId
-      ) {
+        document
+          .getElementById(
+            "entryMessage"
+          )
+          .value = "";
 
-        currentDiaryId =
-          userDoc.data().diaryId;
 
-        showScreen("diary");
+      } catch (e) {
 
-        loadDiary();
+        alert(e.message);
 
-      } else {
+      }
+
+    });
+
+
+  // =========================================
+  // LOGOUT
+  // =========================================
+
+  document
+    .getElementById("logoutBtn")
+    .onclick = async () => {
+
+      await signOut(auth);
+
+    };
+
+
+  // =========================================
+  // AUTH STATE
+  // =========================================
+
+  onAuthStateChanged(
+    auth,
+    async user => {
+
+      if (!user) {
+
+        currentUser = null;
+
+        currentDiaryId = null;
+
+        if (unsubscribeDiary) {
+
+          unsubscribeDiary();
+
+          unsubscribeDiary = null;
+
+        }
+
+        showScreen("login");
+
+        return;
+
+      }
+
+
+      currentUser = user;
+
+
+      try {
+
+        const userDoc =
+          await getDoc(
+            doc(
+              db,
+              "users",
+              user.uid
+            )
+          );
+
+
+        if (
+          userDoc.exists() &&
+          userDoc.data().diaryId
+        ) {
+
+          currentDiaryId =
+            userDoc.data().diaryId;
+
+
+          showScreen("diary");
+
+
+          loadDiary();
+
+
+        } else {
+
+          showScreen("setup");
+
+        }
+
+
+      } catch (e) {
+
+        console.error(e);
 
         showScreen("setup");
 
       }
 
-
-    } catch (e) {
-
-      console.error(e);
-
-      showScreen("setup");
-
     }
-
-  });
+  );
 
 </script>
 
