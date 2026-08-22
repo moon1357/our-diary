@@ -401,7 +401,258 @@ button:disabled {
     padding: 8px 13px;
   }
 }
-</style>
+/* ================================
+   OUR DIARY — AESTHETIC DIARY STYLE
+   ================================ */
+
+/* Soft pink background */
+body {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(255, 220, 232, 0.55), transparent 30%),
+    radial-gradient(circle at 90% 20%, rgba(238, 215, 225, 0.5), transparent 30%),
+    linear-gradient(135deg, #fff7f9, #fdf9f5);
+  color: #4a383d;
+}
+
+/* Main cards */
+.card {
+  background: rgba(255, 252, 250, 0.92);
+  border: 1px solid rgba(220, 182, 194, 0.28);
+  border-radius: 24px;
+  box-shadow: 0 12px 35px rgba(126, 82, 98, 0.09);
+  backdrop-filter: blur(8px);
+}
+
+/* Headings */
+h1 {
+  color: #5a3f48;
+  font-family: Georgia, serif;
+  letter-spacing: -0.8px;
+}
+
+h2 {
+  color: #684752;
+  font-family: Georgia, serif;
+}
+
+/* Logo */
+.logo {
+  background: linear-gradient(145deg, #fff, #fff0f4);
+  border: 1px solid #f1d5df;
+  box-shadow: 0 10px 28px rgba(173, 104, 130, 0.14);
+}
+
+/* Subtitle */
+.subtitle {
+  color: #9b7f88;
+}
+
+/* Inputs */
+input,
+textarea {
+  background: #fffafb;
+  border: 1px solid #ead5dc;
+  color: #4a383d;
+  border-radius: 15px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #b49da4;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #d69aaa;
+  box-shadow: 0 0 0 4px rgba(214, 154, 170, 0.12);
+  background: #fff;
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(135deg, #c9869a, #b96f87);
+  border-radius: 15px;
+  box-shadow: 0 7px 18px rgba(185, 111, 135, 0.18);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #b8758a, #a96279);
+  box-shadow: 0 9px 22px rgba(185, 111, 135, 0.25);
+}
+
+button.secondary {
+  background: #f4e7eb;
+  color: #694b55;
+  box-shadow: none;
+}
+
+button.danger {
+  background: #b87582;
+}
+
+/* Diary top brand */
+.brand {
+  color: #684752;
+  font-family: Georgia, serif;
+}
+
+/* Private diary section */
+.private {
+  color: #8c6672;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Diary code */
+.code {
+  background: linear-gradient(135deg, #fff0f4, #f9e7ed);
+  border: 1px solid #efd1db;
+  color: #815363;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
+  letter-spacing: 7px;
+}
+
+/* Copy button */
+#copyCodeBtn {
+  border-radius: 999px;
+  background: #f1dce3;
+  color: #714d59;
+  box-shadow: none;
+}
+
+#copyCodeBtn:hover {
+  background: #e8cbd4;
+}
+
+/* Diary entries */
+.entry {
+  position: relative;
+  background: rgba(255, 252, 250, 0.96);
+  border: 1px solid #f0dfe4;
+  border-radius: 21px;
+  padding: 22px 20px;
+  margin-bottom: 17px;
+  box-shadow: 0 9px 28px rgba(126, 82, 98, 0.08);
+  overflow: hidden;
+}
+
+/* Small decorative star */
+.entry::before {
+  content: "✦";
+  position: absolute;
+  top: 13px;
+  right: 17px;
+  color: #d29aaa;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+/* Entry name */
+.name {
+  color: #694752;
+  font-family: Georgia, serif;
+  font-size: 17px;
+  margin-bottom: 7px;
+}
+
+/* Date */
+.date {
+  display: inline-block;
+  color: #a88691;
+  background: #fbf0f3;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  margin-bottom: 15px;
+}
+
+/* Entry text */
+.text {
+  color: #59474c;
+  line-height: 1.8;
+  font-size: 14px;
+  padding-top: 13px;
+  border-top: 1px solid #f1e2e6;
+  overflow-wrap: anywhere;
+}
+
+/* Empty diary */
+.empty {
+  background: rgba(255, 252, 250, 0.7);
+  border: 1px dashed #e5c8d1;
+  border-radius: 20px;
+  color: #a48891;
+}
+
+/* Loading */
+.loading {
+  color: #a48790;
+}
+
+/* Small note */
+.small-note {
+  color: #a58b93;
+}
+
+/* Mobile */
+@media (max-width: 500px) {
+
+  .container {
+    padding: 18px 12px 35px;
+  }
+
+  header {
+    margin: 25px 0 22px;
+  }
+
+  .logo {
+    width: 58px;
+    height: 58px;
+    font-size: 25px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  .card {
+    padding: 19px;
+    border-radius: 20px;
+  }
+
+  .entry {
+    padding: 19px 17px;
+    border-radius: 18px;
+  }
+
+  .name {
+    font-size: 16px;
+  }
+
+  .text {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .topbar {
+    gap: 10px;
+  }
+
+  .brand {
+    font-size: 18px;
+  }
+
+  .logout {
+    padding: 9px 13px;
+    font-size: 12px;
+  }
+
+  button {
+    min-height: 48px;
+  }
+}</style>
 </head>
 
 <body>
