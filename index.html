@@ -70,11 +70,12 @@
       font-size: 15px;
       margin-bottom: 12px;
       outline: none;
+      font-family: Arial, sans-serif;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #999;
+      border-color: #888;
     }
 
     textarea {
@@ -133,7 +134,6 @@
       background: #f4f4f1;
       border-radius: 12px;
       margin: 15px 0;
-      font-weight: bold;
     }
 
     .entry {
@@ -188,24 +188,17 @@
       margin: 0;
     }
 
+    .empty {
+      text-align: center;
+      color: #999;
+      padding: 30px 10px;
+      font-size: 14px;
+    }
+
     .loading {
       text-align: center;
       color: #888;
       padding: 20px;
-    }
-
-    @media (max-width: 500px) {
-      .container {
-        padding: 20px 15px;
-      }
-
-      h1 {
-        font-size: 28px;
-      }
-
-      .card {
-        padding: 18px;
-      }
     }
   </style>
 </head>
@@ -214,9 +207,9 @@
 
 <div class="container">
 
-  <!-- =========================
-       LOGIN
-  ========================== -->
+  <!-- ============================= -->
+  <!-- LOGIN -->
+  <!-- ============================= -->
 
   <div id="loginScreen" class="screen active">
 
@@ -262,9 +255,9 @@
   </div>
 
 
-  <!-- =========================
-       SIGN UP
-  ========================== -->
+  <!-- ============================= -->
+  <!-- SIGN UP -->
+  <!-- ============================= -->
 
   <div id="signupScreen" class="screen">
 
@@ -315,9 +308,9 @@
   </div>
 
 
-  <!-- =========================
-       DIARY SETUP
-  ========================== -->
+  <!-- ============================= -->
+  <!-- DIARY SETUP -->
+  <!-- ============================= -->
 
   <div id="setupScreen" class="screen">
 
@@ -368,9 +361,9 @@
   </div>
 
 
-  <!-- =========================
-       DIARY
-  ========================== -->
+  <!-- ============================= -->
+  <!-- DIARY -->
+  <!-- ============================= -->
 
   <div id="diaryScreen" class="screen">
 
@@ -454,16 +447,18 @@
 
     <!-- DIARY ENTRIES -->
 
-    <div id="diary"></div>
+    <div id="diary">
+
+      <div class="loading">
+        Loading diary...
+      </div>
+
+    </div>
 
   </div>
 
 </div>
 
-
-<!-- =========================
-     FIREBASE SCRIPT
-========================== -->
 
 <script type="module">
 
@@ -504,7 +499,7 @@
 
   const firebaseConfig = {
 
-    apiKey: "AIzaSyDwdfh1gkFto1I64efH5SqXz_-z6U",
+    apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34H5SqXz_-z6U",
 
     authDomain: "our-diary-df440.firebaseapp.com",
 
@@ -672,8 +667,11 @@
             result.user.uid
           ),
           {
+
             name: name,
+
             email: email
+
           }
         );
 
@@ -683,7 +681,7 @@
         console.error(e);
 
         error.textContent =
-          getFirebaseErrorMessage(e);
+          getFriendlyAuthError(e);
 
       }
 
@@ -734,13 +732,12 @@
           password
         );
 
-
       } catch (e) {
 
         console.error(e);
 
         error.textContent =
-          getFirebaseErrorMessage(e);
+          getFriendlyAuthError(e);
 
       }
 
@@ -748,46 +745,64 @@
 
 
   // =========================================
-  // FIREBASE ERROR MESSAGE
+  // FRIENDLY AUTH ERRORS
   // =========================================
 
-  function getFirebaseErrorMessage(error) {
+  function getFriendlyAuthError(error) {
 
-    if (!error || !error.code) {
+    const code = error?.code || "";
 
-      return "Something went wrong. Please try again.";
+
+    if (code.includes("auth/api-key-not-valid")) {
+
+      return "Firebase API key is invalid. Please check the Firebase configuration.";
+
+    }
+
+
+    if (code.includes("auth/invalid-credential")) {
+
+      return "Email or password is incorrect.";
 
     }
 
 
-    switch (error.code) {
+    if (code.includes("auth/invalid-email")) {
 
-      case "auth/invalid-email":
-        return "Please enter a valid email address.";
-
-      case "auth/user-not-found":
-        return "No account found with this email.";
-
-      case "auth/wrong-password":
-      case "auth/invalid-credential":
-        return "Incorrect email or password.";
-
-      case "auth/email-already-in-use":
-        return "This email is already registered.";
-
-      case "auth/weak-password":
-        return "Password must be at least 6 characters.";
-
-      case "auth/api-key-not-valid.-please-pass-a-valid-api-key.":
-        return "Firebase API key is invalid. Please check your Firebase configuration.";
-
-      case "permission-denied":
-        return "Permission denied. Please check Firestore Rules.";
-
-      default:
-        return error.message || "Something went wrong.";
+      return "Please enter a valid email address.";
 
     }
+
+
+    if (code.includes("auth/email-already-in-use")) {
+
+      return "This email is already registered. Please log in.";
+
+    }
+
+
+    if (code.includes("auth/weak-password")) {
+
+      return "Password must be at least 6 characters.";
+
+    }
+
+
+    if (code.includes("auth/user-not-found")) {
+
+      return "No account was found with this email.";
+
+    }
+
+
+    if (code.includes("auth/wrong-password")) {
+
+      return "Incorrect password.";
+
+    }
+
+
+    return error?.message || "Something went wrong.";
 
   }
 
@@ -800,6 +815,8 @@
     .getElementById("showSignup")
     .onclick = () => {
 
+      document.getElementById("signupError").textContent = "";
+
       showScreen("signup");
 
     };
@@ -808,6 +825,8 @@
   document
     .getElementById("showLogin")
     .onclick = () => {
+
+      document.getElementById("loginError").textContent = "";
 
       showScreen("login");
 
@@ -822,20 +841,17 @@
     .getElementById("createDiaryBtn")
     .addEventListener("click", async () => {
 
-      const error =
-        document.getElementById("setupError");
-
-      error.textContent = "";
-
-
       if (!currentUser) {
-
-        error.textContent =
-          "Please log in first.";
 
         return;
 
       }
+
+
+      const error =
+        document.getElementById("setupError");
+
+      error.textContent = "";
 
 
       const code = generateCode();
@@ -850,12 +866,30 @@
 
       try {
 
+        const existingDiary =
+          await getDoc(diaryRef);
+
+
+        if (existingDiary.exists()) {
+
+          error.textContent =
+            "Please try again.";
+
+          return;
+
+        }
+
+
         await setDoc(
           diaryRef,
           {
+
             code: code,
+
             createdBy: currentUser.uid,
+
             createdAt: serverTimestamp()
+
           }
         );
 
@@ -867,10 +901,14 @@
             currentUser.uid
           ),
           {
+
             diaryId: code
+
           },
           {
+
             merge: true
+
           }
         );
 
@@ -902,7 +940,7 @@
         console.error(e);
 
         error.textContent =
-          getFirebaseErrorMessage(e);
+          e.message;
 
       }
 
@@ -941,10 +979,10 @@
       }
 
 
-      if (!currentUser) {
+      if (code.length !== 6) {
 
         error.textContent =
-          "Please log in first.";
+          "Diary code must be 6 characters.";
 
         return;
 
@@ -980,15 +1018,20 @@
             currentUser.uid
           ),
           {
+
             diaryId: code
+
           },
           {
+
             merge: true
+
           }
         );
 
 
         currentDiaryId = code;
+
 
         showScreen("diary");
 
@@ -1000,7 +1043,7 @@
         console.error(e);
 
         error.textContent =
-          getFirebaseErrorMessage(e);
+          e.message;
 
       }
 
@@ -1045,8 +1088,6 @@
 
       } catch (error) {
 
-        console.error(error);
-
         alert(
           "Could not copy the code."
         );
@@ -1070,8 +1111,6 @@
       .textContent = currentDiaryId;
 
 
-    // Stop previous listener
-
     if (unsubscribeDiary) {
 
       unsubscribeDiary();
@@ -1079,6 +1118,14 @@
       unsubscribeDiary = null;
 
     }
+
+
+    const diary =
+      document.getElementById("diary");
+
+
+    diary.innerHTML =
+      '<div class="loading">Loading diary...</div>';
 
 
     const entriesRef =
@@ -1103,26 +1150,15 @@
     unsubscribeDiary =
       onSnapshot(
         diaryQuery,
-
         snapshot => {
-
-          const diary =
-            document.getElementById(
-              "diary"
-            );
-
 
           diary.innerHTML = "";
 
 
           if (snapshot.empty) {
 
-            diary.innerHTML = `
-              <div class="card" style="text-align:center; color:#888;">
-                No memories yet.<br>
-                Write the first one ✨
-              </div>
-            `;
+            diary.innerHTML =
+              '<div class="empty">No memories yet. Write the first one. 💭</div>';
 
             return;
 
@@ -1168,10 +1204,19 @@
 
             if (data.createdAt) {
 
-              date.textContent =
-                data.createdAt
-                  .toDate()
-                  .toLocaleString();
+              try {
+
+                date.textContent =
+                  data.createdAt
+                    .toDate()
+                    .toLocaleString();
+
+              } catch {
+
+                date.textContent =
+                  "Just now";
+
+              }
 
             } else {
 
@@ -1210,16 +1255,8 @@
 
           console.error(error);
 
-          document
-            .getElementById("diary")
-            .innerHTML = `
-              <div class="card">
-                <div class="error">
-                  Could not load diary entries.
-                  Please check Firestore Rules.
-                </div>
-              </div>
-            `;
+          diary.innerHTML =
+            '<div class="error">Could not load diary entries.</div>';
 
         }
 
@@ -1236,29 +1273,7 @@
     .getElementById("addEntryBtn")
     .addEventListener("click", async () => {
 
-      const error =
-        document.getElementById(
-          "entryError"
-        );
-
-
-      error.textContent = "";
-
-
       if (!currentDiaryId) {
-
-        error.textContent =
-          "Diary is not available.";
-
-        return;
-
-      }
-
-
-      if (!currentUser) {
-
-        error.textContent =
-          "Please log in first.";
 
         return;
 
@@ -1277,6 +1292,15 @@
           .getElementById("entryMessage")
           .value
           .trim();
+
+
+      const error =
+        document.getElementById(
+          "entryError"
+        );
+
+
+      error.textContent = "";
 
 
       if (!name || !message) {
@@ -1325,7 +1349,7 @@
         console.error(e);
 
         error.textContent =
-          getFirebaseErrorMessage(e);
+          e.message;
 
       }
 
@@ -1408,18 +1432,8 @@
             userDoc.data().diaryId;
 
 
-          // Fill name automatically
-
-          const savedName =
-            userDoc.data().name || "";
-
-
-          document
-            .getElementById("entryName")
-            .value = savedName;
-
-
           showScreen("diary");
+
 
           loadDiary();
 
