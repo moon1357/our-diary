@@ -1,177 +1,205 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Our Diary</title>
+  <title>Our Diary ♡</title>
 
   <style>
     * {
       box-sizing: border-box;
     }
 
+    :root {
+      --bg: #f8f3ef;
+      --card: rgba(255,255,255,0.88);
+      --text: #403a38;
+      --muted: #9a8e89;
+      --accent: #b98282;
+      --accent-dark: #966565;
+      --soft: #f2e4e1;
+      --border: #eadbd6;
+      --danger: #b96d6d;
+      --shadow: 0 10px 35px rgba(95,70,65,0.08);
+    }
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f7f7f5;
-      color: #333;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, #fff8f5 0%, transparent 35%),
+        radial-gradient(circle at bottom right, #f1e3df 0%, transparent 35%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: inherit;
     }
 
     .container {
       width: 100%;
-      max-width: 700px;
+      max-width: 760px;
       margin: auto;
-      padding: 30px 20px;
+      padding: 30px 18px 60px;
     }
 
     .screen {
       display: none;
+      animation: fadeIn 0.35s ease;
     }
 
     .screen.active {
       display: block;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 30px;
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
-    h1 {
-      font-size: 32px;
-      font-weight: 500;
+    header {
+      text-align: center;
+      margin: 25px 0 30px;
+    }
+
+    .logo {
+      font-size: 42px;
       margin-bottom: 8px;
     }
 
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
     h2 {
+      margin-top: 0;
+      font-size: 22px;
       font-weight: 500;
     }
 
     .subtitle {
-      color: #888;
-      font-size: 14px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin-top: 8px;
     }
 
     .card {
-      background: white;
-      padding: 22px;
-      border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      padding: 24px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: var(--shadow);
       margin-bottom: 18px;
     }
 
     input,
     textarea {
       width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 13px;
+      border: 1px solid var(--border);
+      background: #fffdfc;
+      color: var(--text);
+      border-radius: 14px;
+      padding: 14px 15px;
       font-size: 15px;
-      margin-bottom: 12px;
+      margin-bottom: 13px;
       outline: none;
-      font-family: Arial, sans-serif;
+      transition: 0.2s;
     }
 
     input:focus,
     textarea:focus {
-      border-color: #888;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(185,130,130,0.10);
     }
 
     textarea {
-      min-height: 120px;
+      min-height: 130px;
       resize: vertical;
+      line-height: 1.6;
     }
 
     button {
       width: 100%;
       border: none;
-      border-radius: 10px;
-      padding: 13px;
-      background: #333;
+      border-radius: 14px;
+      padding: 13px 16px;
+      background: var(--accent);
       color: white;
       font-size: 15px;
       cursor: pointer;
-      margin-top: 5px;
+      transition: 0.2s;
+      margin-top: 4px;
     }
 
     button:hover {
-      opacity: 0.9;
-    }
-
-    button.secondary {
-      background: #eee;
-      color: #333;
-    }
-
-    button.danger {
-      background: #b33;
+      background: var(--accent-dark);
+      transform: translateY(-1px);
     }
 
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none;
+    }
+
+    button.secondary {
+      background: var(--soft);
+      color: var(--text);
+    }
+
+    button.secondary:hover {
+      background: #ead7d3;
+    }
+
+    button.danger {
+      background: var(--danger);
     }
 
     .switch {
       text-align: center;
-      margin-top: 15px;
-      color: #777;
-      font-size: 14px;
+      margin-top: 17px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
     }
 
     .switch span {
-      color: #333;
+      color: var(--accent-dark);
       font-weight: bold;
       cursor: pointer;
     }
 
-    .code {
-      font-size: 28px;
-      letter-spacing: 5px;
-      text-align: center;
-      padding: 15px;
-      background: #f4f4f1;
-      border-radius: 12px;
-      margin: 15px 0;
-    }
-
-    .entry {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      margin-bottom: 15px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-    }
-
-    .name {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    .date {
-      color: #999;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    .text {
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
     .error {
-      color: #b33;
-      font-size: 14px;
-      margin: 8px 0;
+      color: #a84f4f;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin: 10px 0;
       text-align: center;
     }
 
     .success {
-      color: #38744a;
-      font-size: 14px;
-      margin: 8px 0;
+      color: #557c61;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin: 10px 0;
       text-align: center;
     }
 
@@ -179,26 +207,179 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin: 10px 0 20px;
+    }
+
+    .brand-small {
+      font-size: 20px;
     }
 
     .logout {
       width: auto;
       padding: 8px 14px;
       margin: 0;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .private-box {
+      text-align: center;
+      background:
+        linear-gradient(135deg, #fffaf8, #f6e9e5);
+    }
+
+    .lock {
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+
+    .private-title {
+      font-size: 14px;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+    }
+
+    .room-code {
+      font-family: Arial, sans-serif;
+      font-size: 27px;
+      letter-spacing: 6px;
+      font-weight: bold;
+      margin: 10px 0 15px;
+      color: var(--accent-dark);
+    }
+
+    .welcome {
+      text-align: center;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .entry {
+      position: relative;
+      background: rgba(255,255,255,0.92);
+      padding: 19px;
+      border-radius: 19px;
+      margin-bottom: 15px;
+      box-shadow: 0 7px 25px rgba(95,70,65,0.06);
+      border: 1px solid #f0e3df;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .entry.mine {
+      border-left: 4px solid var(--accent);
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .name {
+      font-weight: bold;
+      font-size: 16px;
+      color: var(--accent-dark);
+    }
+
+    .date {
+      color: var(--muted);
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    .text {
+      line-height: 1.7;
+      white-space: pre-wrap;
+      margin-top: 13px;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .entry-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .small-btn {
+      width: auto;
+      padding: 6px 9px;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-size: 11px;
+      background: #f4e9e6;
+      color: #765e59;
+    }
+
+    .small-btn:hover {
+      background: #ead8d4;
+      color: #765e59;
+    }
+
+    .small-btn.delete {
+      background: #f4dddd;
+      color: #9a5555;
     }
 
     .empty {
       text-align: center;
-      color: #999;
-      padding: 30px 10px;
-      font-size: 14px;
+      color: var(--muted);
+      padding: 35px 20px;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+    }
+
+    .heart {
+      text-align: center;
+      color: #c58e8e;
+      font-size: 20px;
+      margin: 18px 0;
     }
 
     .loading {
       text-align: center;
-      color: #888;
+      color: var(--muted);
+      font-family: Arial, sans-serif;
       padding: 20px;
+      font-size: 13px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 13px 45px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .card {
+        padding: 19px;
+        border-radius: 19px;
+      }
+
+      .topbar {
+        margin-top: 3px;
+      }
+
+      .entry {
+        padding: 16px;
+      }
+
+      .entry-header {
+        flex-direction: column;
+      }
+
+      .entry-actions {
+        align-self: flex-end;
+      }
     }
   </style>
 </head>
@@ -207,15 +388,12 @@
 
 <div class="container">
 
-  <!-- ============================= -->
   <!-- LOGIN -->
-  <!-- ============================= -->
-
   <div id="loginScreen" class="screen active">
 
     <header>
+      <div class="logo">♡</div>
       <h1>Our Diary</h1>
-
       <div class="subtitle">
         A little place for our memories.
       </div>
@@ -240,7 +418,7 @@
       >
 
       <button id="loginBtn">
-        Log in
+        Log in ♡
       </button>
 
       <div id="loginError" class="error"></div>
@@ -255,13 +433,11 @@
   </div>
 
 
-  <!-- ============================= -->
   <!-- SIGN UP -->
-  <!-- ============================= -->
-
   <div id="signupScreen" class="screen">
 
     <header>
+      <div class="logo">✿</div>
       <h1>Create Account</h1>
 
       <div class="subtitle">
@@ -293,7 +469,7 @@
       >
 
       <button id="signupBtn">
-        Create account
+        Create account ♡
       </button>
 
       <div id="signupError" class="error"></div>
@@ -308,13 +484,11 @@
   </div>
 
 
-  <!-- ============================= -->
   <!-- DIARY SETUP -->
-  <!-- ============================= -->
-
   <div id="setupScreen" class="screen">
 
     <header>
+      <div class="logo">📖</div>
       <h1>Our Diary</h1>
 
       <div class="subtitle">
@@ -326,13 +500,17 @@
 
       <h2>Create a Diary</h2>
 
+      <div class="subtitle" style="margin-bottom:15px;">
+        Start a private space for your memories.
+      </div>
+
       <button id="createDiaryBtn">
-        Create New Diary
+        ✨ Create New Diary
       </button>
 
       <div
         id="createdCode"
-        class="code"
+        class="room-code"
         style="display:none;"
       ></div>
 
@@ -343,6 +521,10 @@
 
       <h2>Join a Diary</h2>
 
+      <div class="subtitle" style="margin-bottom:15px;">
+        Have a diary code? Enter it below.
+      </div>
+
       <input
         type="text"
         id="joinCode"
@@ -351,7 +533,7 @@
       >
 
       <button id="joinDiaryBtn">
-        Join Diary
+        ♡ Join Diary
       </button>
 
       <div id="setupError" class="error"></div>
@@ -361,15 +543,14 @@
   </div>
 
 
-  <!-- ============================= -->
   <!-- DIARY -->
-  <!-- ============================= -->
-
   <div id="diaryScreen" class="screen">
 
     <div class="topbar">
 
-      <strong>Our Diary</strong>
+      <div class="brand-small">
+        📖 <strong>Our Diary</strong>
+      </div>
 
       <button
         id="logoutBtn"
@@ -381,35 +562,22 @@
     </div>
 
 
-    <!-- DIARY CODE -->
+    <!-- PRIVATE DIARY CODE -->
+    <div class="card private-box">
 
-    <div
-      class="card"
-      style="text-align:center;"
-    >
+      <div class="lock">🔐</div>
 
-      <div style="font-size:13px; color:#888;">
-        🔐 Your Private Diary
+      <div class="private-title">
+        Your Private Diary
       </div>
 
-      <div
-        style="
-          font-size:13px;
-          color:#888;
-          margin-top:8px;
-        "
-      >
+      <div class="private-title" style="margin-top:8px;">
         Diary Code
       </div>
 
       <div
         id="roomCode"
-        style="
-          font-size:26px;
-          letter-spacing:5px;
-          font-weight:bold;
-          margin:10px 0;
-        "
+        class="room-code"
       >
         ------
       </div>
@@ -418,12 +586,17 @@
         📋 Copy Diary Code
       </button>
 
+      <div id="copyMessage" class="success"></div>
+
     </div>
 
 
     <!-- ADD ENTRY -->
-
     <div class="card">
+
+      <div class="welcome">
+        Write something you want to remember ♡
+      </div>
 
       <input
         type="text"
@@ -437,22 +610,23 @@
       ></textarea>
 
       <button id="addEntryBtn">
-        Add to Diary
+        Add to Diary ✨
       </button>
-
-      <div id="entryError" class="error"></div>
 
     </div>
 
 
-    <!-- DIARY ENTRIES -->
-
+    <!-- ENTRIES -->
     <div id="diary">
 
       <div class="loading">
-        Loading diary...
+        Loading memories...
       </div>
 
+    </div>
+
+    <div class="heart">
+      ♡
     </div>
 
   </div>
@@ -485,6 +659,8 @@
     doc,
     setDoc,
     getDoc,
+    updateDoc,
+    deleteDoc,
     onSnapshot,
     query,
     orderBy,
@@ -497,16 +673,15 @@
   // FIREBASE CONFIG
   // =========================================
 
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34H5SqXz_-z6U",
-  authDomain: "our-diary-df440.firebaseapp.com",
-  projectId: "our-diary-df440",
-  storageBucket: "our-diary-df440.firebasestorage.app",
-  messagingSenderId: "1078217767691",
-  appId: "1:1078217767691:web:dab6ca2ef0c8c6679b800e",
-  measurementId: "G-WEDXMB4P4J"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyDwdfh1gKfTo1I64uFLRi34Hq5SqXz_-z6U",
+    authDomain: "our-diary-df440.firebaseapp.com",
+    projectId: "our-diary-df440",
+    storageBucket: "our-diary-df440.firebasestorage.app",
+    messagingSenderId: "1078217767691",
+    appId: "1:1078217767691:web:dab6ca2ef0c8c6679b800e",
+    measurementId: "G-WEDXMB4P4J"
+  };
 
 
   // =========================================
@@ -555,9 +730,7 @@ const firebaseConfig = {
   function showScreen(name) {
 
     Object.values(screens).forEach(screen => {
-
       screen.classList.remove("active");
-
     });
 
     screens[name].classList.add("active");
@@ -578,15 +751,31 @@ const firebaseConfig = {
 
     for (let i = 0; i < 6; i++) {
 
-      code += chars[
-        Math.floor(
-          Math.random() * chars.length
-        )
-      ];
+      code +=
+        chars[
+          Math.floor(
+            Math.random() * chars.length
+          )
+        ];
 
     }
 
     return code;
+
+  }
+
+
+  // =========================================
+  // ESCAPE HTML
+  // =========================================
+
+  function escapeHTML(value) {
+
+    const div = document.createElement("div");
+
+    div.textContent = value || "";
+
+    return div.innerHTML;
 
   }
 
@@ -654,27 +843,18 @@ const firebaseConfig = {
 
 
         await setDoc(
-          doc(
-            db,
-            "users",
-            result.user.uid
-          ),
+          doc(db, "users", result.user.uid),
           {
-
             name: name,
-
             email: email
-
           }
         );
 
 
       } catch (e) {
 
-        console.error(e);
-
         error.textContent =
-          getFriendlyAuthError(e);
+          e.message.replace("Firebase: ", "");
 
       }
 
@@ -727,77 +907,12 @@ const firebaseConfig = {
 
       } catch (e) {
 
-        console.error(e);
-
         error.textContent =
-          getFriendlyAuthError(e);
+          e.message.replace("Firebase: ", "");
 
       }
 
     });
-
-
-  // =========================================
-  // FRIENDLY AUTH ERRORS
-  // =========================================
-
-  function getFriendlyAuthError(error) {
-
-    const code = error?.code || "";
-
-
-    if (code.includes("auth/api-key-not-valid")) {
-
-      return "Firebase API key is invalid. Please check the Firebase configuration.";
-
-    }
-
-
-    if (code.includes("auth/invalid-credential")) {
-
-      return "Email or password is incorrect.";
-
-    }
-
-
-    if (code.includes("auth/invalid-email")) {
-
-      return "Please enter a valid email address.";
-
-    }
-
-
-    if (code.includes("auth/email-already-in-use")) {
-
-      return "This email is already registered. Please log in.";
-
-    }
-
-
-    if (code.includes("auth/weak-password")) {
-
-      return "Password must be at least 6 characters.";
-
-    }
-
-
-    if (code.includes("auth/user-not-found")) {
-
-      return "No account was found with this email.";
-
-    }
-
-
-    if (code.includes("auth/wrong-password")) {
-
-      return "Incorrect password.";
-
-    }
-
-
-    return error?.message || "Something went wrong.";
-
-  }
 
 
   // =========================================
@@ -808,8 +923,6 @@ const firebaseConfig = {
     .getElementById("showSignup")
     .onclick = () => {
 
-      document.getElementById("signupError").textContent = "";
-
       showScreen("signup");
 
     };
@@ -818,8 +931,6 @@ const firebaseConfig = {
   document
     .getElementById("showLogin")
     .onclick = () => {
-
-      document.getElementById("loginError").textContent = "";
 
       showScreen("login");
 
@@ -834,39 +945,18 @@ const firebaseConfig = {
     .getElementById("createDiaryBtn")
     .addEventListener("click", async () => {
 
-      if (!currentUser) {
-
-        return;
-
-      }
-
-
-      const error =
-        document.getElementById("setupError");
-
-      error.textContent = "";
-
-
       const code = generateCode();
 
       const diaryRef =
-        doc(
-          db,
-          "diaries",
-          code
-        );
+        doc(db, "diaries", code);
 
 
       try {
 
-        const existingDiary =
+        const existing =
           await getDoc(diaryRef);
 
-
-        if (existingDiary.exists()) {
-
-          error.textContent =
-            "Please try again.";
+        if (existing.exists()) {
 
           return;
 
@@ -876,13 +966,9 @@ const firebaseConfig = {
         await setDoc(
           diaryRef,
           {
-
             code: code,
-
             createdBy: currentUser.uid,
-
             createdAt: serverTimestamp()
-
           }
         );
 
@@ -894,14 +980,10 @@ const firebaseConfig = {
             currentUser.uid
           ),
           {
-
             diaryId: code
-
           },
           {
-
             merge: true
-
           }
         );
 
@@ -930,10 +1012,10 @@ const firebaseConfig = {
 
       } catch (e) {
 
-        console.error(e);
-
-        error.textContent =
-          e.message;
+        document
+          .getElementById("setupError")
+          .textContent =
+            e.message;
 
       }
 
@@ -972,16 +1054,6 @@ const firebaseConfig = {
       }
 
 
-      if (code.length !== 6) {
-
-        error.textContent =
-          "Diary code must be 6 characters.";
-
-        return;
-
-      }
-
-
       try {
 
         const diaryDoc =
@@ -1011,20 +1083,15 @@ const firebaseConfig = {
             currentUser.uid
           ),
           {
-
             diaryId: code
-
           },
           {
-
             merge: true
-
           }
         );
 
 
         currentDiaryId = code;
-
 
         showScreen("diary");
 
@@ -1032,8 +1099,6 @@ const firebaseConfig = {
 
 
       } catch (e) {
-
-        console.error(e);
 
         error.textContent =
           e.message;
@@ -1061,22 +1126,19 @@ const firebaseConfig = {
         );
 
 
-        const button =
-          document.getElementById(
-            "copyCodeBtn"
-          );
-
-
-        button.textContent =
-          "✓ Code Copied!";
+        document
+          .getElementById("copyMessage")
+          .textContent =
+            "✓ Diary code copied!";
 
 
         setTimeout(() => {
 
-          button.textContent =
-            "📋 Copy Diary Code";
+          document
+            .getElementById("copyMessage")
+            .textContent = "";
 
-        }, 1500);
+        }, 1800);
 
 
       } catch (error) {
@@ -1101,24 +1163,15 @@ const firebaseConfig = {
 
     document
       .getElementById("roomCode")
-      .textContent = currentDiaryId;
+      .textContent =
+        currentDiaryId;
 
 
     if (unsubscribeDiary) {
 
       unsubscribeDiary();
 
-      unsubscribeDiary = null;
-
     }
-
-
-    const diary =
-      document.getElementById("diary");
-
-
-    diary.innerHTML =
-      '<div class="loading">Loading diary...</div>';
 
 
     const entriesRef =
@@ -1145,13 +1198,24 @@ const firebaseConfig = {
         diaryQuery,
         snapshot => {
 
+          const diary =
+            document.getElementById("diary");
+
+
           diary.innerHTML = "";
 
 
           if (snapshot.empty) {
 
-            diary.innerHTML =
-              '<div class="empty">No memories yet. Write the first one. 💭</div>';
+            diary.innerHTML = `
+              <div class="empty">
+                <div style="font-size:30px;margin-bottom:8px;">
+                  🌷
+                </div>
+                No memories yet.<br>
+                Write the first one.
+              </div>
+            `;
 
             return;
 
@@ -1165,82 +1229,222 @@ const firebaseConfig = {
 
 
             const entry =
-              document.createElement(
-                "div"
-              );
+              document.createElement("div");
 
 
-            entry.className =
-              "entry";
+            entry.className = "entry";
 
 
-            const name =
-              document.createElement(
-                "div"
-              );
+            if (
+              currentUser &&
+              data.userId === currentUser.uid
+            ) {
 
-            name.className =
-              "name";
+              entry.classList.add("mine");
 
-            name.textContent =
-              data.name || "Someone";
+            }
 
 
-            const date =
-              document.createElement(
-                "div"
-              );
-
-            date.className =
-              "date";
+            let dateText = "Just now";
 
 
             if (data.createdAt) {
 
               try {
 
-                date.textContent =
+                dateText =
                   data.createdAt
                     .toDate()
                     .toLocaleString();
 
-              } catch {
+              } catch (e) {
 
-                date.textContent =
-                  "Just now";
+                dateText = "Just now";
 
               }
-
-            } else {
-
-              date.textContent =
-                "Just now";
 
             }
 
 
-            const text =
-              document.createElement(
-                "div"
+            const safeName =
+              escapeHTML(
+                data.name || "Someone"
               );
 
-            text.className =
-              "text";
 
-            text.textContent =
-              data.message || "";
+            const safeMessage =
+              escapeHTML(
+                data.message || ""
+              );
 
 
-            entry.appendChild(name);
+            const isMine =
+              currentUser &&
+              data.userId === currentUser.uid;
 
-            entry.appendChild(date);
 
-            entry.appendChild(text);
+            entry.innerHTML = `
+
+              <div class="entry-header">
+
+                <div>
+
+                  <div class="name">
+                    ${safeName}
+                  </div>
+
+                  <div class="date">
+                    ${dateText}
+                  </div>
+
+                </div>
+
+                ${
+                  isMine
+                  ? `
+                    <div class="entry-actions">
+
+                      <button
+                        class="small-btn edit-btn"
+                        data-id="${item.id}"
+                        data-message="${encodeURIComponent(data.message || "")}"
+                      >
+                        ✏️ Edit
+                      </button>
+
+                      <button
+                        class="small-btn delete delete-btn"
+                        data-id="${item.id}"
+                      >
+                        🗑️
+                      </button>
+
+                    </div>
+                  `
+                  : ""
+                }
+
+              </div>
+
+              <div class="text">
+                ${safeMessage}
+              </div>
+
+            `;
 
 
             diary.appendChild(entry);
 
           });
+
+
+          // EDIT BUTTONS
+
+          document
+            .querySelectorAll(".edit-btn")
+            .forEach(button => {
+
+              button.onclick = async () => {
+
+                const id =
+                  button.dataset.id;
+
+                const oldMessage =
+                  decodeURIComponent(
+                    button.dataset.message
+                  );
+
+
+                const newMessage =
+                  prompt(
+                    "Edit your memory:",
+                    oldMessage
+                  );
+
+
+                if (
+                  newMessage === null ||
+                  !newMessage.trim()
+                ) {
+
+                  return;
+
+                }
+
+
+                try {
+
+                  await updateDoc(
+                    doc(
+                      db,
+                      "diaries",
+                      currentDiaryId,
+                      "entries",
+                      id
+                    ),
+                    {
+                      message:
+                        newMessage.trim()
+                    }
+                  );
+
+                } catch (e) {
+
+                  alert(
+                    "Could not edit this entry."
+                  );
+
+                }
+
+              };
+
+            });
+
+
+          // DELETE BUTTONS
+
+          document
+            .querySelectorAll(".delete-btn")
+            .forEach(button => {
+
+              button.onclick = async () => {
+
+                const id =
+                  button.dataset.id;
+
+
+                const confirmDelete =
+                  confirm(
+                    "Delete this memory?"
+                  );
+
+
+                if (!confirmDelete) return;
+
+
+                try {
+
+                  await deleteDoc(
+                    doc(
+                      db,
+                      "diaries",
+                      currentDiaryId,
+                      "entries",
+                      id
+                    )
+                  );
+
+                } catch (e) {
+
+                  alert(
+                    "Could not delete this entry."
+                  );
+
+                }
+
+              };
+
+            });
 
         },
 
@@ -1248,8 +1452,13 @@ const firebaseConfig = {
 
           console.error(error);
 
-          diary.innerHTML =
-            '<div class="error">Could not load diary entries.</div>';
+          document
+            .getElementById("diary")
+            .innerHTML = `
+              <div class="error">
+                Could not load diary entries.
+              </div>
+            `;
 
         }
 
@@ -1266,11 +1475,7 @@ const firebaseConfig = {
     .getElementById("addEntryBtn")
     .addEventListener("click", async () => {
 
-      if (!currentDiaryId) {
-
-        return;
-
-      }
+      if (!currentDiaryId) return;
 
 
       const name =
@@ -1287,23 +1492,27 @@ const firebaseConfig = {
           .trim();
 
 
-      const error =
-        document.getElementById(
-          "entryError"
-        );
-
-
-      error.textContent = "";
-
-
       if (!name || !message) {
 
-        error.textContent =
-          "Please fill in your name and message.";
+        alert(
+          "Please fill in your name and message."
+        );
 
         return;
 
       }
+
+
+      const button =
+        document.getElementById(
+          "addEntryBtn"
+        );
+
+
+      button.disabled = true;
+
+      button.textContent =
+        "Saving...";
 
 
       try {
@@ -1316,16 +1525,11 @@ const firebaseConfig = {
             "entries"
           ),
           {
-
             name: name,
-
             message: message,
-
             userId: currentUser.uid,
-
             createdAt:
               serverTimestamp()
-
           }
         );
 
@@ -1339,10 +1543,16 @@ const firebaseConfig = {
 
       } catch (e) {
 
-        console.error(e);
+        alert(
+          e.message
+        );
 
-        error.textContent =
-          e.message;
+      } finally {
+
+        button.disabled = false;
+
+        button.textContent =
+          "Add to Diary ✨";
 
       }
 
@@ -1357,15 +1567,7 @@ const firebaseConfig = {
     .getElementById("logoutBtn")
     .onclick = async () => {
 
-      try {
-
-        await signOut(auth);
-
-      } catch (e) {
-
-        console.error(e);
-
-      }
+      await signOut(auth);
 
     };
 
@@ -1425,8 +1627,21 @@ const firebaseConfig = {
             userDoc.data().diaryId;
 
 
-          showScreen("diary");
+          const entryName =
+            document.getElementById(
+              "entryName"
+            );
 
+
+          if (entryName) {
+
+            entryName.value =
+              userDoc.data().name || "";
+
+          }
+
+
+          showScreen("diary");
 
           loadDiary();
 
@@ -1447,10 +1662,10 @@ const firebaseConfig = {
       }
 
     }
-
   );
 
 </script>
 
 </body>
 </html>
+```
