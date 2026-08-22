@@ -1749,220 +1749,210 @@ from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
     });
 
+// =====================================================
+// LOAD DIARY
+// =====================================================
 
-  // =====================================================
-  // LOAD DIARY
-  // =====================================================
-
- function loadDiary() {
+function loadDiary() {
 
   if (!currentDiaryId) return;
 
-
-  document
-    .getElementById("roomCode")
-    .textContent = currentDiaryId;
-
+  document.getElementById("roomCode").textContent =
+    currentDiaryId;
 
   if (unsubscribeDiary) {
-
     unsubscribeDiary();
-
     unsubscribeDiary = null;
-
   }
 
+  const entriesRef = collection(
+    db,
+    "diaries",
+    currentDiaryId,
+    "entries"
+  );
 
-  const entriesRef =
-    collection(
-      db,
-      "diaries",
-      currentDiaryId,
-      "entries"
-    );
+  const diaryQuery = query(
+    entriesRef,
+    orderBy("createdAt", "desc")
+  );
 
+  unsubscribeDiary = onSnapshot(
+    diaryQuery,
 
-  const diaryQuery =
-    query(
-      entriesRef,
-      orderBy(
-        "createdAt",
-        "desc"
-      )
-    );
+    snapshot => {
 
+      const diary =
+        document.getElementById("diary");
 
-  unsubscribeDiary =
-    onSnapshot(
-      diaryQuery,
-      snapshot => {
+      diary.innerHTML = "";
 
-        const diary =
-          document.getElementById("diary");
+      if (snapshot.empty) {
 
+        diary.innerHTML = `
+          <div class="book-wrapper">
+            <div class="book-page">
 
-        diary.innerHTML = "";
+              <div class="page-decoration">
+                ✦ ♡ ✦
+              </div>
 
+              <div class="page-name">
+                Our Diary
+              </div>
 
-        if (snapshot.empty) {
+              <div class="page-divider"></div>
 
-          diary.innerHTML = `
-            <div class="book-wrapper">
-
-              <div class="book-page">
-
-                <div class="page-decoration">
-                  ✦ ♡ ✦
-                </div>
-
-                <div class="page-name">
-                  Our Diary
-                </div>
-
-                <div class="page-divider"></div>
-
-                <div class="page-text"
-                     style="text-align:center;">
-                  No memories yet...
-                  <br><br>
-                  Write the first one 🎀
-                </div>
-
+              <div
+                class="page-text"
+                style="text-align:center;"
+              >
+                No memories yet...
+                <br><br>
+                Write the first one 🎀
               </div>
 
             </div>
-          `;
+          </div>
+        `;
 
-          return;
+        return;
+      }
 
-        }
+      const entries = snapshot.docs;
 
+      let currentPage = 0;
 
-        const entries =
-          snapshot.docs;
+      function renderPage() {
 
+        diary.innerHTML = "";
 
-        let currentPage = 0;
+        const item = entries[currentPage];
+        const data = item.data();
 
+        // =========================
+        // BOOK WRAPPER
+        // =========================
 
-        function renderPage() {
+        const wrapper =
+          document.createElement("div");
 
-          diary.innerHTML = "";
+        wrapper.className =
+          "book-wrapper";
 
+        // =========================
+        // BOOK PAGE
+        // =========================
 
-          const item =
-            entries[currentPage];
+        const page =
+          document.createElement("div");
 
+        page.className =
+          "book-page";
 
-          const data =
-            item.data();
+        // =========================
+        // DECORATION
+        // =========================
 
+        const decoration =
+          document.createElement("div");
 
-          /* =========================
-             BOOK WRAPPER
-          ========================= */
+        decoration.className =
+          "page-decoration";
 
-          const wrapper =
-            document.createElement("div");
+        decoration.textContent =
+          "✦ ♡ ✦";
 
-          wrapper.className =
-            "book-wrapper";
+        // =========================
+        // NAME
+        // =========================
 
+        const name =
+          document.createElement("div");
 
-          /* =========================
-             BOOK PAGE
-          ========================= */
+        name.className =
+          "page-name";
 
-          const page =
-            document.createElement("div");
+        name.textContent =
+          data.name || "Someone";
 
-          page.className =
-            "book-page";
+        // =========================
+        // DATE
+        // =========================
 
+        const date =
+          document.createElement("div");
 
-          /* DECORATION */
+        date.className =
+          "page-date";
 
-          const decoration =
-            document.createElement("div");
+        if (data.createdAt) {
 
-          decoration.className =
-            "page-decoration";
-
-          decoration.textContent =
-            "✦ ♡ ✦";
-
-
-          /* NAME */
-
-          const name =
-            document.createElement("div");
-
-          name.className =
-            "page-name";
-
-          name.textContent =
-            data.name || "Someone";
-
-
-          /* DATE */
-
-          const date =
-            document.createElement("div");
-
-          date.className =
-            "page-date";
-
-
-          if (data.createdAt) {
+          try {
 
             date.textContent =
               data.createdAt
                 .toDate()
                 .toLocaleString();
 
-          } else {
+          } catch {
 
             date.textContent =
               "Just now";
 
           }
 
+        } else {
 
-          /* DIVIDER */
+          date.textContent =
+            "Just now";
 
-          const divider =
-            document.createElement("div");
+        }
 
-          divider.className =
-            "page-divider";
+        // =========================
+        // DIVIDER
+        // =========================
+
+        const divider =
+          document.createElement("div");
+
+        divider.className =
+          "page-divider";
+
+        // =========================
+        // MESSAGE
+        // =========================
+
+        const text =
+          document.createElement("div");
+
+        text.className =
+          "page-text";
+
+        text.textContent =
+          data.message || "";
+
+        // =========================
+        // ACTIONS
+        // =========================
+
+        const actions =
+          document.createElement("div");
+
+        actions.className =
+          "page-actions";
 
 
-          /* MESSAGE */
+        // =========================
+        // ONLY OWNER CAN EDIT/DELETE
+        // =========================
 
-          const text =
-            document.createElement("div");
+        if (
+          currentUser &&
+          data.userId === currentUser.uid
+        ) {
 
-          text.className =
-            "page-text";
-
-          text.textContent =
-            data.message || "";
-
-
-         // Only show Edit/Delete for the owner
-if (data.userId === currentUser.uid) {
-  /* =========================
-             EDIT + DELETE
-          ========================= */
-
-          const actions =
-            document.createElement("div");
-
-          actions.className =
-            "page-actions";
-
-
-          /* EDIT */
+          // EDIT BUTTON
 
           const editBtn =
             document.createElement("button");
@@ -1970,13 +1960,11 @@ if (data.userId === currentUser.uid) {
           editBtn.textContent =
             "✏️ Edit";
 
-
           editBtn.style.background =
             "#f3dce3";
 
           editBtn.style.color =
             "#704b57";
-
 
           editBtn.onclick =
             async () => {
@@ -1987,14 +1975,12 @@ if (data.userId === currentUser.uid) {
                   data.message || ""
                 );
 
-
-              if (newMessage === null)
+              if (newMessage === null) {
                 return;
-
+              }
 
               const updatedMessage =
                 newMessage.trim();
-
 
               if (!updatedMessage) {
 
@@ -2003,14 +1989,11 @@ if (data.userId === currentUser.uid) {
                 );
 
                 return;
-
               }
-
 
               try {
 
                 await updateDoc(
-
                   doc(
                     db,
                     "diaries",
@@ -2018,12 +2001,10 @@ if (data.userId === currentUser.uid) {
                     "entries",
                     item.id
                   ),
-
                   {
                     message:
                       updatedMessage
                   }
-
                 );
 
               } catch (errorObject) {
@@ -2044,7 +2025,7 @@ if (data.userId === currentUser.uid) {
             };
 
 
-          /* DELETE */
+          // DELETE BUTTON
 
           const deleteBtn =
             document.createElement("button");
@@ -2052,13 +2033,11 @@ if (data.userId === currentUser.uid) {
           deleteBtn.textContent =
             "🗑️ Delete";
 
-
           deleteBtn.style.background =
             "#f5e0e3";
 
           deleteBtn.style.color =
             "#9b5d66";
-
 
           deleteBtn.onclick =
             async () => {
@@ -2068,15 +2047,13 @@ if (data.userId === currentUser.uid) {
                   "Are you sure you want to delete this diary entry?"
                 );
 
-
-              if (!confirmed)
+              if (!confirmed) {
                 return;
-
+              }
 
               try {
 
                 await deleteDoc(
-
                   doc(
                     db,
                     "diaries",
@@ -2084,7 +2061,6 @@ if (data.userId === currentUser.uid) {
                     "entries",
                     item.id
                   )
-
                 );
 
               } catch (errorObject) {
@@ -2105,284 +2081,262 @@ if (data.userId === currentUser.uid) {
             };
 
 
-          actions.appendChild(
-            editBtn
-          );}
+          actions.appendChild(editBtn);
 
-          actions.appendChild(
-            deleteBtn
-          );
-
-
-          /* =========================
-             PUT EVERYTHING TOGETHER
-          ========================= */
-
-          page.appendChild(
-            decoration
-          );
-
-          page.appendChild(
-            name
-          );
-
-          page.appendChild(
-            date
-          );
-
-          page.appendChild(
-            divider
-          );
-
-          page.appendChild(
-            text
-          );
-
-          page.appendChild(
-            actions
-          );
-
-
-          wrapper.appendChild(
-            page
-          );
-
-
-          /* =========================
-             NAVIGATION
-          ========================= */
-
-          const navigation =
-            document.createElement("div");
-
-          navigation.className =
-            "page-navigation";
-
-
-          /* PREVIOUS */
-
-          const previousBtn =
-            document.createElement("button");
-
-          previousBtn.textContent =
-            "← Previous";
-
-
-          previousBtn.disabled =
-            currentPage === 0;
-
-
-          previousBtn.onclick =
-            () => {
-
-              if (currentPage > 0) {
-
-                currentPage--;
-
-                renderPage();
-
-              }
-
-            };
-
-
-          /* PAGE NUMBER */
-
-          const pageNumber =
-            document.createElement("div");
-
-          pageNumber.className =
-            "page-number";
-
-          pageNumber.textContent =
-            `Page ${currentPage + 1} of ${entries.length}`;
-
-
-          /* NEXT */
-
-          const nextBtn =
-            document.createElement("button");
-
-          nextBtn.textContent =
-            "Next →";
-
-
-          nextBtn.disabled =
-            currentPage ===
-            entries.length - 1;
-
-
-          nextBtn.onclick =
-            () => {
-
-              if (
-                currentPage <
-                entries.length - 1
-              ) {
-
-                currentPage++;
-
-                renderPage();
-
-              }
-
-            };
-
-
-          navigation.appendChild(
-            previousBtn
-          );
-
-          navigation.appendChild(
-            pageNumber
-          );
-
-          navigation.appendChild(
-            nextBtn
-          );
-
-
-          diary.appendChild(
-            wrapper
-          );
-
-          diary.appendChild(
-            navigation
-          );
+          actions.appendChild(deleteBtn);
 
         }
 
+        // =========================
+        // PUT EVERYTHING TOGETHER
+        // =========================
 
-        renderPage();
+        page.appendChild(decoration);
 
-      },
+        page.appendChild(name);
+
+        page.appendChild(date);
+
+        page.appendChild(divider);
+
+        page.appendChild(text);
+
+        // Only add actions if there are buttons
+        if (actions.children.length > 0) {
+          page.appendChild(actions);
+        }
+
+        wrapper.appendChild(page);
+
+        // =========================
+        // NAVIGATION
+        // =========================
+
+        const navigation =
+          document.createElement("div");
+
+        navigation.className =
+          "page-navigation";
 
 
-      errorObject => {
+        // PREVIOUS
 
-        console.error(
-          "Diary listener error:",
-          errorObject
+        const previousBtn =
+          document.createElement("button");
+
+        previousBtn.textContent =
+          "← Previous";
+
+        previousBtn.disabled =
+          currentPage === 0;
+
+        previousBtn.onclick =
+          () => {
+
+            if (currentPage > 0) {
+
+              currentPage--;
+
+              renderPage();
+
+            }
+
+          };
+
+
+        // PAGE NUMBER
+
+        const pageNumber =
+          document.createElement("div");
+
+        pageNumber.className =
+          "page-number";
+
+        pageNumber.textContent =
+          `Page ${currentPage + 1} of ${entries.length}`;
+
+
+        // NEXT
+
+        const nextBtn =
+          document.createElement("button");
+
+        nextBtn.textContent =
+          "Next →";
+
+        nextBtn.disabled =
+          currentPage === entries.length - 1;
+
+        nextBtn.onclick =
+          () => {
+
+            if (
+              currentPage <
+              entries.length - 1
+            ) {
+
+              currentPage++;
+
+              renderPage();
+
+            }
+
+          };
+
+
+        navigation.appendChild(
+          previousBtn
         );
 
+        navigation.appendChild(
+          pageNumber
+        );
 
-        document
-          .getElementById("diary")
-          .innerHTML = `
-            <div class="error">
-              Could not load diary entries.
-              <br>
-              ${friendlyError(errorObject)}
-            </div>
-          `;
+        navigation.appendChild(
+          nextBtn
+        );
+
+        diary.appendChild(wrapper);
+
+        diary.appendChild(navigation);
 
       }
 
-    );
+      renderPage();
+
+    },
+
+    errorObject => {
+
+      console.error(
+        "Diary listener error:",
+        errorObject
+      );
+
+      document.getElementById("diary").innerHTML = `
+        <div class="error">
+          Could not load diary entries.
+          <br><br>
+          ${friendlyError(errorObject)}
+        </div>
+      `;
+
+    }
+
+  );
 
 }
 
-  document
-    .getElementById("addEntryBtn")
-    .addEventListener("click", async () => {
 
-      if (!currentDiaryId || !currentUser) {
+// =====================================================
+// ADD ENTRY
+// =====================================================
 
-        alert(
-          "Please log in and open a diary first."
-        );
+document
+  .getElementById("addEntryBtn")
+  .addEventListener("click", async () => {
 
-        return;
+    const button =
+      document.getElementById("addEntryBtn");
 
-      }
+    if (!currentDiaryId || !currentUser) {
 
+      alert(
+        "Please log in and open a diary first."
+      );
 
-      const name =
-        document
-          .getElementById("entryName")
-          .value
-          .trim();
+      return;
 
+    }
 
-      const message =
-        document
-          .getElementById("entryMessage")
-          .value
-          .trim();
+    const name =
+      document
+        .getElementById("entryName")
+        .value
+        .trim();
 
-
-      if (!name || !message) {
-
-        alert(
-          "Please fill in your name and message."
-        );
-
-        return;
-
-      }
+    const message =
+      document
+        .getElementById("entryMessage")
+        .value
+        .trim();
 
 
-      try {
+    if (!name || !message) {
 
-        await addDoc(
-          collection(
-            db,
-            "diaries",
-            currentDiaryId,
-            "entries"
-          ),
-          {
+      alert(
+        "Please fill in your name and message."
+      );
 
-            name: name,
+      return;
 
-            message: message,
-
-            userId: currentUser.uid,
-
-            createdAt:
-              serverTimestamp()
-
-          }
-        );
+    }
 
 
-        document
-          .getElementById("entryMessage")
-          .value = "";
+    try {
+
+      button.disabled = true;
+
+      button.textContent =
+        "Saving...";
 
 
-      } catch (errorObject) {
+      await addDoc(
+        collection(
+          db,
+          "diaries",
+          currentDiaryId,
+          "entries"
+        ),
+        {
+          name: name,
+          message: message,
+          userId: currentUser.uid,
+          createdAt: serverTimestamp()
+        }
+      );
 
-        console.error(errorObject);
 
-        alert(
-          friendlyError(errorObject)
-        );
-
-      }
-
-    });
+      document
+        .getElementById("entryMessage")
+        .value = "";
 
 
-  // =====================================================
-  // LOGOUT
-  // =====================================================
+      button.textContent =
+        "✓ Added to Diary";
 
-  document
-    .getElementById("logoutBtn")
-    .onclick = async () => {
 
-      try {
+      setTimeout(() => {
 
-        await signOut(auth);
+        button.disabled = false;
 
-      } catch (errorObject) {
+        button.textContent =
+          "Add to Diary";
 
-        console.error(errorObject);
+      }, 1200);
 
-      }
 
-    };
+    } catch (errorObject) {
+
+      console.error(
+        "Add entry error:",
+        errorObject
+      );
+
+      button.disabled = false;
+
+      button.textContent =
+        "Add to Diary";
+
+      alert(
+        friendlyError(
+          errorObject
+        )
+      );
+
+    }
+
+  });
 
 
   // =====================================================
