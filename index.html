@@ -727,7 +727,29 @@
   });
 
 
-  // LOAD DIARY
+ document.getElementById("copyCodeBtn").addEventListener("click", async () => {
+
+  if (!currentDiaryId) return;
+
+  try {
+
+    await navigator.clipboard.writeText(currentDiaryId);
+
+    const button = document.getElementById("copyCodeBtn");
+
+    button.textContent = "✓ Code Copied!";
+
+    setTimeout(() => {
+      button.textContent = "📋 Copy Diary Code";
+    }, 1500);
+
+  } catch (error) {
+
+    alert("Could not copy the code.");
+
+  }
+
+}); // LOAD DIARY
 
   async function loadDiary() {
 
