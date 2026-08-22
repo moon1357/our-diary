@@ -75,10 +75,6 @@
       cursor: pointer;
     }
 
-    button:hover {
-      opacity: 0.9;
-    }
-
     .entry {
       background: white;
       padding: 18px;
@@ -89,7 +85,7 @@
 
     .name {
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .date {
@@ -100,6 +96,13 @@
 
     .text {
       line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .loading {
+      text-align: center;
+      color: #999;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -126,44 +129,157 @@
         placeholder="Write something..."
       ></textarea>
 
-      <button onclick="addEntry()">
+      <button id="addButton">
         Add to Diary
       </button>
 
     </div>
 
-    <div id="diary"></div>
+    <div id="diary">
+      <div class="loading">Loading diary...</div>
+    </div>
 
   </div>
 
-  <script>
 
-    function addEntry() {
+  <script type="module">
 
-      const name = document.getElementById("name").value;
-      const message = document.getElementById("message").value;
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 
-      if (name === "" || message === "") {
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    }
+      from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34H5SqXz_-z6U",
+      authDomain: "our-diary-df440.firebaseapp.com",
+      projectId: "our-diary-df440",
+      storageBucket: "our-diary-df440.firebasestorage.app",
+      messagingSenderId: "1078217767691",
+      appId: "1:1078217767691:web:dab6ca2ef0c8c6679b800e",
+      measurementId: "G-WEDXMB4P4J"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const db = getFirestore(app);
+
+    const entriesRef = collection(db, "entries");
+
+
+    const nameInput = document.getElementById("name");
+    const messageInput = document.getElementById("message");
+    const addButton = document.getElementById("addButton");
+    const diary = document.getElementById("diary");
+
+
+    // Add a new diary entry
+
+    addButton.addEventListener("click", async () => {
+
+      const name = nameInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!name || !message) {
         alert("Please fill in both fields.");
         return;
       }
 
-      const entry = document.createElement("div");
+      addButton.disabled = true;
+      addButton.textContent = "Saving...";
 
-      entry.className = "entry";
+      try {
 
-      entry.innerHTML = `
-        <div class="name">${name}</div>
-        <div class="date">${new Date().toLocaleString()}</div>
-        <div class="text">${message}</div>
-      `;
+        await addDoc(entriesRef, {
+          name: name,
+          message: message,
+          createdAt: serverTimestamp()
+        });
 
-      document.getElementById("diary").prepend(entry);
+        messageInput.value = "";
 
-      document.getElementById("message").value = "";
-    }
+      } catch (error) {
+
+        console.error(error);
+        alert("Something went wrong. Please try again.");
+
+      }
+
+      addButton.disabled = false;
+      addButton.textContent = "Add to Diary";
+
+    });
+
+
+    // Show diary entries in real time
+
+    const diaryQuery = query(
+      entriesRef,
+      orderBy("createdAt", "desc")
+    );
+
+
+    onSnapshot(diaryQuery, (snapshot) => {
+
+      diary.innerHTML = "";
+
+      if (snapshot.empty) {
+        diary.innerHTML =
+          '<div class="loading">No entries yet. Write the first one ❤️</div>';
+        return;
+      }
+
+
+      snapshot.forEach((doc) => {
+
+        const data = doc.data();
+
+        const entry = document.createElement("div");
+        entry.className = "entry";
+
+
+        const name = document.createElement("div");
+        name.className = "name";
+        name.textContent = data.name || "Unknown";
+
+
+        const date = document.createElement("div");
+        date.className = "date";
+
+        if (data.createdAt) {
+          date.textContent =
+            data.createdAt.toDate().toLocaleString();
+        } else {
+          date.textContent = "Just now";
+        }
+
+
+        const text = document.createElement("div");
+        text.className = "text";
+        text.textContent = data.message || "";
+
+
+        entry.appendChild(name);
+        entry.appendChild(date);
+        entry.appendChild(text);
+
+        diary.appendChild(entry);
+
+      });
+
+    });
 
   </script>
 
 </body>
-  </html>
+</html>
