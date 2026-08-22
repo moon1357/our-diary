@@ -1652,193 +1652,166 @@ button.danger {
 
           }
 
+snapshot.forEach(item => {
 
-          snapshot.forEach(item => {
+  const data = item.data();
 
-            const data =
-              item.data();
+  const entry = document.createElement("div");
+  entry.className = "entry";
 
+  const name = document.createElement("div");
+  name.className = "name";
+  name.textContent = data.name || "Someone";
 
-            const entry =
-              document.createElement("div");
+  const date = document.createElement("div");
+  date.className = "date";
 
-
-            entry.className =
-              "entry";
-
-
-            const name =
-              document.createElement("div");
-
-            name.className =
-              "name";
-
-            name.textContent =
-              data.name || "Someone";
-
-
-            const date =
-              document.createElement("div");
-
-            date.className =
-              "date";
-
-
-            if (data.createdAt) {
-
-              date.textContent =
-                data.createdAt
-                  .toDate()
-                  .toLocaleString();
-
-            } else {
-
-              date.textContent =
-                "Just now";
-
-            }
-
-
-            const text =
-              document.createElement("div");
-
-            text.className =
-              "text";
-
-            text.textContent =
-              data.message || "";
-
-
-           entry.appendChild(name);
-entry.appendChild(date);
-entry.appendChild(text);
-
-
-/* =========================
-   EDIT + DELETE BUTTONS
-   ========================= */
-
-const actions = document.createElement("div");
-
-actions.style.display = "flex";
-actions.style.gap = "8px";
-actions.style.marginTop = "16px";
-
-
-const editBtn = document.createElement("button");
-
-editBtn.textContent = "✏️ Edit";
-
-editBtn.style.width = "auto";
-editBtn.style.flex = "1";
-editBtn.style.margin = "0";
-editBtn.style.padding = "10px";
-editBtn.style.background = "#f3dce3";
-editBtn.style.color = "#704b57";
-editBtn.style.boxShadow = "none";
-
-
-const deleteBtn = document.createElement("button");
-
-deleteBtn.textContent = "🗑️ Delete";
-
-deleteBtn.style.width = "auto";
-deleteBtn.style.flex = "1";
-deleteBtn.style.margin = "0";
-deleteBtn.style.padding = "10px";
-deleteBtn.style.background = "#f5e0e3";
-deleteBtn.style.color = "#9b5d66";
-deleteBtn.style.boxShadow = "none";
-
-
-/* EDIT */
-
-editBtn.onclick = async () => {
-
-  const newMessage = prompt(
-    "Edit your diary entry:",
-    data.message || ""
-  );
-
-  if (newMessage === null) return;
-
-  const trimmedMessage = newMessage.trim();
-
-  if (!trimmedMessage) {
-    alert("Diary entry cannot be empty.");
-    return;
+  if (data.createdAt) {
+    date.textContent =
+      data.createdAt.toDate().toLocaleString();
+  } else {
+    date.textContent = "Just now";
   }
 
-  try {
+  const text = document.createElement("div");
+  text.className = "text";
+  text.textContent = data.message || "";
 
-    await updateDoc(
-      doc(
-        db,
-        "diaries",
-        currentDiaryId,
-        "entries",
-        item.id
-      ),
-      {
-        message: trimmedMessage
-      }
+  entry.appendChild(name);
+  entry.appendChild(date);
+  entry.appendChild(text);
+
+
+  /* =========================
+     EDIT + DELETE BUTTONS
+     ========================= */
+
+  const actions = document.createElement("div");
+
+  actions.style.display = "flex";
+  actions.style.gap = "8px";
+  actions.style.marginTop = "16px";
+
+
+  /* EDIT BUTTON */
+
+  const editBtn = document.createElement("button");
+
+  editBtn.textContent = "✏️ Edit";
+
+  editBtn.style.width = "50%";
+  editBtn.style.margin = "0";
+  editBtn.style.padding = "10px";
+  editBtn.style.background = "#f3dce3";
+  editBtn.style.color = "#704b57";
+  editBtn.style.boxShadow = "none";
+
+
+  editBtn.onclick = async () => {
+
+    const newMessage = prompt(
+      "Edit your diary entry:",
+      data.message || ""
     );
 
-  } catch (errorObject) {
+    if (newMessage === null) return;
 
-    console.error(errorObject);
+    const updatedMessage = newMessage.trim();
 
-    alert(
-      friendlyError(errorObject)
+    if (!updatedMessage) {
+      alert("Diary entry cannot be empty.");
+      return;
+    }
+
+    try {
+
+      await updateDoc(
+        doc(
+          db,
+          "diaries",
+          currentDiaryId,
+          "entries",
+          item.id
+        ),
+        {
+          message: updatedMessage
+        }
+      );
+
+    } catch (errorObject) {
+
+      console.error(
+        "Edit error:",
+        errorObject
+      );
+
+      alert(
+        friendlyError(errorObject)
+      );
+
+    }
+
+  };
+
+
+  /* DELETE BUTTON */
+
+  const deleteBtn = document.createElement("button");
+
+  deleteBtn.textContent = "🗑️ Delete";
+
+  deleteBtn.style.width = "50%";
+  deleteBtn.style.margin = "0";
+  deleteBtn.style.padding = "10px";
+  deleteBtn.style.background = "#f5e0e3";
+  deleteBtn.style.color = "#9b5d66";
+  deleteBtn.style.boxShadow = "none";
+
+
+  deleteBtn.onclick = async () => {
+
+    const confirmed = confirm(
+      "Are you sure you want to delete this diary entry?"
     );
 
-  }
+    if (!confirmed) return;
 
-};
+    try {
 
+      await deleteDoc(
+        doc(
+          db,
+          "diaries",
+          currentDiaryId,
+          "entries",
+          item.id
+        )
+      );
 
-/* DELETE */
+    } catch (errorObject) {
 
-deleteBtn.onclick = async () => {
+      console.error(
+        "Delete error:",
+        errorObject
+      );
 
-  const confirmDelete = confirm(
-    "Are you sure you want to delete this diary entry?"
-  );
+      alert(
+        friendlyError(errorObject)
+      );
 
-  if (!confirmDelete) return;
+    }
 
-  try {
-
-    await deleteDoc(
-      doc(
-        db,
-        "diaries",
-        currentDiaryId,
-        "entries",
-        item.id
-      )
-    );
-
-  } catch (errorObject) {
-
-    console.error(errorObject);
-
-    alert(
-      friendlyError(errorObject)
-    );
-
-  }
-
-};
+  };
 
 
-actions.appendChild(editBtn);
-actions.appendChild(deleteBtn);
+  actions.appendChild(editBtn);
+  actions.appendChild(deleteBtn);
 
-entry.appendChild(actions);
+  entry.appendChild(actions);
 
-diary.appendChild(entry);
-          });
+  diary.appendChild(entry);
+
+});
 
         },
 
