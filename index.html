@@ -320,13 +320,39 @@
 
     <div class="topbar">
 
-      <strong>Our Diary</strong>
+  <strong>Our Diary</strong>
 
-      <button id="logoutBtn" class="logout danger">
-        Logout
-      </button>
+  <button id="logoutBtn" class="logout danger">
+    Logout
+  </button>
 
-    </div>
+</div>
+
+<div class="card" style="text-align:center;">
+
+  <div style="font-size:13px; color:#888;">
+    🔐 Your Private Diary
+  </div>
+
+  <div style="font-size:13px; color:#888; margin-top:8px;">
+    Diary Code
+  </div>
+
+  <div id="roomCode"
+       style="
+         font-size:26px;
+         letter-spacing:5px;
+         font-weight:bold;
+         margin:10px 0;
+       ">
+    ------
+  </div>
+
+  <button id="copyCodeBtn">
+    📋 Copy Diary Code
+  </button>
+
+</div>
 
     <div class="card">
 
@@ -377,7 +403,6 @@
     getDoc,
     onSnapshot,
     query,
-    where,
     orderBy,
     serverTimestamp
   }
@@ -386,7 +411,7 @@
 
   const firebaseConfig = {
 
-    apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34H5SqXz_-z6U",
+    apiKey: "AIzaSyDwdfh1gkFto1I64uFLRi34Hq5SqXz_-z6U",
 
     authDomain: "our-diary-df440.firebaseapp.com",
 
@@ -614,6 +639,7 @@
       document.getElementById("createdCode").textContent = code;
 
       currentDiaryId = code;
+
 
       setTimeout(() => {
 
