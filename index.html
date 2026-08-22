@@ -1118,7 +1118,7 @@ button.danger {
   }
     from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
- import {
+import {
   getFirestore,
   collection,
   addDoc,
@@ -1132,6 +1132,7 @@ button.danger {
   orderBy,
   serverTimestamp
 }
+from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
   from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
   
   // =====================================================
@@ -1950,7 +1951,9 @@ button.danger {
             data.message || "";
 
 
-          /* =========================
+         // Only show Edit/Delete for the owner
+if (data.userId === currentUser.uid) {
+  /* =========================
              EDIT + DELETE
           ========================= */
 
@@ -2106,7 +2109,7 @@ button.danger {
 
           actions.appendChild(
             editBtn
-          );
+          );}
 
           actions.appendChild(
             deleteBtn
